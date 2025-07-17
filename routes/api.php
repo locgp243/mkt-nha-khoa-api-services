@@ -27,7 +27,7 @@ $router->get('/api/health-check', function () {
  * @var App\Controllers\Admin\UploadController $uploadCtrl
  * 
  * @var App\Controllers\Public\PublicPostController $publicPostCtrl
-
+ * @var App\Controllers\Public\PublicCategoryController $publicCategoryCtrl
  */
 
 // --- ADMIN AUTH ---
@@ -37,6 +37,10 @@ $router->get('/api/admin/me', $authMiddleware, [$adminAuthCtrl, 'me']);
 // --- QUẢN LÝ DANH MỤC (CATEGORIES) ---
 $router->get('/api/admin/categories', $authMiddleware, [$categoryCtrl, 'index']);
 $router->post('/api/admin/categories', $authMiddleware, [$categoryCtrl, 'store']);
+
+//PUBLIC
+$router->get('/api/public/categories', [$publicCategoryCtrl, 'index']);
+$router->get('/api/public/categories/{slug}', [$publicCategoryCtrl, 'show']);
 
 // Các route cho hành động hàng loạt (bulk actions)
 $router->post('/api/admin/categories/bulk-delete', $authMiddleware, [$categoryCtrl, 'bulkDelete']);
