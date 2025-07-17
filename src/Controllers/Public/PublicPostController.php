@@ -44,11 +44,11 @@ class PublicPostController
     }
 
     /**
-     * Lấy chi tiết một bài viết (GET /api/admin/posts/{id})
+     * Lấy chi tiết một bài viết (GET /api/admin/posts/{slug})
      */
-    public function show(Request $request, int $id): Response
+    public function show(Request $request, string $slug): Response
     {
-        $post = $this->postModel->findById($id);
+        $post = $this->postModel->findBySlug($slug);
         if (!$post) {
             return new Response(['message' => 'Bài viết không tồn tại.'], 404);
         }
