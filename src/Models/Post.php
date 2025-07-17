@@ -58,6 +58,7 @@ class Post extends BaseModel
             $params[] = $status;
             $types .= "s";
         }
+
         // Lọc theo loại bài viết
         if ($postType) {
             $conditions[] = "p.post_type = ?";
@@ -204,7 +205,7 @@ class Post extends BaseModel
     {
         // Tự động tạo slug nếu không được cung cấp
         $slugSource = !empty($data['slug']) ? $data['slug'] : $data['title'];
-        $slug = StringUtil::createSlug($slugSource);
+        $slug= StringUtil::generateSlug($slugSource);
 
         $query = "INSERT INTO " . $this->table_name . " 
                     (title, slug, content, excerpt, status, post_type, category_id, 
@@ -266,7 +267,7 @@ class Post extends BaseModel
             $types .= "s";
             $slugSource = !empty($data['slug']) ? $data['slug'] : $data['title'];
             $fields[] = "slug = ?";
-            $params[] = StringUtil::createSlug($slugSource);
+            $params[] = StringUtil::generateSlug($slugSource);
             $types .= "s";
         }
         if (isset($data['content'])) {
@@ -496,6 +497,50 @@ class Post extends BaseModel
         $affectedRows = $stmt->affected_rows;
         $stmt->close();
         return $affectedRows;
+    }
+
+    /**
+     * Tìm một bài viết theo slug, chỉ lấy bài đã published và chưa bị xóa.
+     * @param string $slug Slug của bài viết.
+     * @return array|null Dữ liệu bài viết hoặc null nếu không tìm thấy.
+     */
+    public function findBySlug(string $slug): ?array
+    {
+        $query = "
+            SELECT
+                p.*,
+                c.name AS category_name,
+                creator.full_name AS creator_name
+            FROM
+                " . $this->table_name . " AS p
+            LEFT JOIN categories AS c ON p.category_id = c.id
+            LEFT JOIN admins AS creator ON p.created_by_admin_id = creator.id
+            WHERE p.slug = ? AND p.status = 'published' AND p.deleted_at IS NULL
+            LIMIT 1
+        ";
+
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param("s", $slug);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $post = $result->fetch_assoc();
+        $stmt->close();
+
+        // Tăng lượt xem mỗi khi có người đọc
+        if ($post) {
+            $this->incrementViewCount($post['id']);
+        }
+
+        return $post;
+    }
+
+    private function incrementViewCount(int $id): void
+    {
+        $query = "UPDATE " . $this->table_name . " SET view_count = view_count + 1 WHERE id = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $stmt->close();
     }
 
 }
