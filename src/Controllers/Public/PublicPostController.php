@@ -44,7 +44,7 @@ class PublicPostController
     }
 
     /**
-     * Lấy chi tiết một bài viết (GET /api/admin/posts/{id})
+     * Lấy chi tiết một bài viết (GET /api/admin/posts/{slug})
      */
     public function show(Request $request, string $slug): Response
     {
