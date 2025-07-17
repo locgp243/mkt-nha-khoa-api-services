@@ -56,7 +56,7 @@ $router->post('/api/admin/posts', $authMiddleware, [$postCtrl, 'store']);
 
 // PUBLIC
 $router->get('/api/public/posts', [$publicPostCtrl, 'index']);
-$router->get('/api/public/posts/{id}', [$publicPostCtrl, 'show']);
+$router->get('/api/public/posts/{slug}', [$publicPostCtrl, 'show']);
 
 // Bulk Actions
 $router->post('/api/admin/posts/bulk-delete', $authMiddleware, [$postCtrl, 'bulkDelete']);

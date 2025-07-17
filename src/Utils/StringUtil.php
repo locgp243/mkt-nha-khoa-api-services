@@ -7,30 +7,17 @@ class StringUtil
 {
     /**
      * Chuyển đổi một chuỗi thành dạng slug an toàn cho URL.
-     * @param string $string Chuỗi đầu vào.
+     * @param string $title Chuỗi đầu vào.
      * @return string Chuỗi slug.
      */
-    public static function createSlug(string $string): string
-    {
-        // Chuyển chuỗi về chữ thường và loại bỏ các ký tự đặc biệt
-        $slug = mb_strtolower($string, 'UTF-8');
-        $slug = preg_replace('/[áàảạãăắằẳặẵâấầẩậẫ]/u', 'a', $slug);
-        $slug = preg_replace('/[éèẻẹẽêếềểệễ]/u', 'e', $slug);
-        $slug = preg_replace('/[íìỉịĩ]/u', 'i', $slug);
-        $slug = preg_replace('/[óòỏọõôốồổộỗơớờởợỡ]/u', 'o', $slug);
-        $slug = preg_replace('/[úùủụũưứừửựữ]/u', 'u', $slug);
-        $slug = preg_replace('/[ýỳỷỵỹ]/u', 'y', $slug);
-        $slug = preg_replace('/[đ]/u', 'd', $slug);
 
-        // Loại bỏ các ký tự không phải là chữ cái, số hoặc dấu gạch ngang
-        $slug = preg_replace('/[^a-z0-9-]+/u', '', $slug);
-
-        // Thay thế khoảng trắng hoặc nhiều dấu gạch ngang bằng một dấu gạch ngang duy nhất
-        $slug = preg_replace('/[\s_-]+/', '-', $slug);
-
-        // Loại bỏ dấu gạch ngang ở đầu và cuối chuỗi
+    public static function generateSlug(string $title): string {
+        if ($title === null) return uniqid('post-');
+        $slug = mb_strtolower($title, 'UTF-8');
+        $patterns = [ '/(à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ)/' => 'a', '/(è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ)/' => 'e', '/(ì|í|ị|ỉ|ĩ)/' => 'i', '/(ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ)/' => 'o', '/(ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ)/' => 'u', '/(ỳ|ý|ỵ|ỷ|ỹ)/' => 'y', '/(đ)/' => 'd', '/[^a-z0-9\s-]/u' => '', '/[\s-]+/' => '-', ];
+        $slug = preg_replace(array_keys($patterns), array_values($patterns), $slug);
         $slug = trim($slug, '-');
-
+        if (empty($slug)) return uniqid('post-');
         return $slug;
-    }
+}
 }
