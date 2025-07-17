@@ -155,6 +155,19 @@ class Category extends BaseModel
      * @param bool $includeDeleted Có bao gồm bản ghi đã xóa mềm hay không.
      * @return array|null Dữ liệu danh mục hoặc null nếu không tìm thấy.
      */
+    public function findBySlug(string $slug): ?array
+    {
+        $query = "SELECT * FROM " . $this->table_name . " WHERE slug = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param("s", $slug);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $category = $result->fetch_assoc();
+        $stmt->close();
+        return $category;
+    }
+
+
     public function findById(int $id, bool $includeDeleted = false): ?array
     {
         $query = "SELECT * FROM " . $this->table_name . " WHERE id = ?"; //

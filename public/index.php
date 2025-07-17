@@ -8,7 +8,7 @@ use App\Utils\{JwtUtil, FileUploader};
 use App\Middleware\AuthMiddleware;
 use App\Models\{Admin, Category, Post, Customer, SiteSetting, ActivityLog, Notification};
 use App\Controllers\Admin\{AdminAuthController, CategoryController, PostController, CustomerController, SettingController, UploadController};
-use App\Controllers\Public\{PublicPostController};
+use App\Controllers\Public\{PublicPostController, PublicCategoryController};
 // --- KHỞI TẠO & CẤU HÌNH BAN ĐẦU ---
 
 if (session_status() === PHP_SESSION_NONE) {
@@ -81,6 +81,7 @@ $adminAuthCtrl = new AdminAuthController($adminModel, $jwtUtil);
 $categoryCtrl = new CategoryController($categoryModel, $activityLogModel, $notificationModel);
 $postCtrl = new PostController($postModel, $activityLogModel, $notificationModel);
 $publicPostCtrl = new PublicPostController($postModel, $activityLogModel, $notificationModel);
+$publicCategoryCtrl = new PublicCategoryController($categoryModel, $activityLogModel, $notificationModel);
 // $customerCtrl = new CustomerController($customerModel);
 // $settingCtrl = new SettingController($settingModel);
 $uploadCtrl = new UploadController($fileUploader);
