@@ -70,7 +70,7 @@ class CategoryController
             return new Response(['message' => 'Tên và loại danh mục là bắt buộc.'], 400);
         }
 
-        $slug = StringUtil::createSlug($data['slug'] ?? $data['name']);
+        $slug = StringUtil::generateSlug($data['slug'] ?? $data['name']);
         if ($this->categoryModel->slugExists($slug)) {
             return new Response(['message' => 'Đường dẫn (slug) này đã tồn tại.'], 409);
         }
@@ -114,7 +114,7 @@ class CategoryController
             return new Response(['message' => 'Tên danh mục không được để trống.'], 400);
         }
 
-        $slug = StringUtil::createSlug($data['slug'] ?? $data['name']);
+        $slug = StringUtil::generateSlug($data['slug'] ?? $data['name']);
         if ($this->categoryModel->slugExists($slug, $id)) {
             return new Response(['message' => 'Đường dẫn (slug) này đã tồn tại.'], 409);
         }
