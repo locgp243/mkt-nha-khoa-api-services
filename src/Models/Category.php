@@ -181,7 +181,7 @@ class Category extends BaseModel
     {
         // Tự động tạo slug nếu không được cung cấp
         $slugSource = !empty($data['slug']) ? $data['slug'] : $data['name'];
-        $slug = StringUtil::createSlug($slugSource);
+        $slug = StringUtil::generateSlug($slugSource);
 
         $query = "INSERT INTO " . $this->table_name . " (name, slug, description, category_type, created_by_admin_id, updated_by_admin_id) VALUES (?, ?, ?, ?, ?, ?)"; //
         $stmt = $this->db->prepare($query);
@@ -218,7 +218,7 @@ class Category extends BaseModel
         //    Hàm !empty() sẽ coi chuỗi rỗng '' là "empty", xử lý đúng ý đồ của người dùng.
         $slugSource = !empty($userInputSlug) ? $userInputSlug : $name;
         // 3. Tạo slug sạch từ nguồn đã quyết định.
-        $slug = StringUtil::createSlug($slugSource);
+        $slug = StringUtil::generateSlug($slugSource);
 
 
         $query = "UPDATE " . $this->table_name . " SET name = ?, slug = ?, description = ?, updated_by_admin_id = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?"; //
