@@ -11,7 +11,7 @@ class FileUploader
 
     public function __construct(array $config = [])
     {
-        $this->uploadDir = $config['upload_dir'] ?? __DIR__ . '/../../public/uploads';
+        $this->uploadDir = $config['upload_dir'] ?? __DIR__ . '/../../uploads';
         $this->allowedTypes = $config['allowed_types'] ?? ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
         $this->maxSize = $config['max_size'] ?? 15 * 1024 * 1024; // 15MB
     }
