@@ -123,10 +123,12 @@ class Post extends BaseModel
         $postType = $options['post_type'] ?? null;
         $categoryId = $options['category_id'] ?? null;
         $searchTerm = $options['search_term'] ?? null;
+        $categorySlug = $options['category_slug'] ?? null;
 
         $query = "
             SELECT COUNT(p.id) as total
             FROM " . $this->table_name . " AS p
+            LEFT JOIN categories AS c ON p.category_id = c.id
             LEFT JOIN admins AS creator ON p.created_by_admin_id = creator.id
         ";
 
@@ -151,6 +153,13 @@ class Post extends BaseModel
             $conditions[] = "p.category_id = ?";
             $params[] = $categoryId;
             $types .= "i";
+        }
+
+        // Lọc theo slug danh mục
+          if ($categorySlug) {
+            $conditions[] = "c.slug = ?";
+            $params[] = $categorySlug;
+            $types .= "s";
         }
         // Tìm kiếm nâng cao
         if ($searchTerm) {
