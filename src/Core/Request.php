@@ -99,6 +99,10 @@ class Request
             // Đệ quy để làm sạch từng phần tử trong mảng
             return array_map([$this, 'sanitize'], $data);
         }
+        // Thêm dòng kiểm tra này
+        if (is_null($data)) {
+            return null; // Trả về null nếu đầu vào là null
+        }
         // Loại bỏ các thẻ HTML và PHP, mã hóa các ký tự đặc biệt
         return htmlspecialchars(strip_tags($data), ENT_QUOTES, 'UTF-8');
     }

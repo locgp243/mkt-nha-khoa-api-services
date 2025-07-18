@@ -22,6 +22,7 @@ class Post extends BaseModel
         $sortBy = $options['sort_by'] ?? 'id';
         $sortOrder = $options['sort_order'] ?? 'desc';
         $status = $options['status'] ?? null;
+        $deletedStatus = $options['deleted_status'] ?? 'active';
         $postType = $options['post_type'] ?? null;
         $categoryId = $options['category_id'] ?? null;
         $searchTerm = $options['search_term'] ?? null;
@@ -46,7 +47,7 @@ class Post extends BaseModel
         $types = "";
 
         // Sắp xếp an toàn
-        $allowedSortBy = ['id', 'title', 'status', 'post_type', 'created_at', 'updated_at', 'category_name', 'creator_name'];
+        $allowedSortBy = ['id', 'title', 'status', 'post_type', 'created_at', 'updated_at', 'published_at', 'category_name', 'creator_name', 'updater_name', 'is_featured', 'view_count'];
         if (!in_array(strtolower($sortBy), $allowedSortBy)) {
             $sortBy = 'id';
         }
@@ -58,6 +59,13 @@ class Post extends BaseModel
             $conditions[] = "p.status = ?";
             $params[] = $status;
             $types .= "s";
+        }
+
+        //Lọc theo bài xóa mềm
+        if ($deletedStatus === 'active') {
+            $conditions[] = "p.deleted_at IS NULL";
+        } elseif ($status === 'deleted') {
+            $conditions[] = "p.deleted_at IS NOT NULL";
         }
 
         // Lọc theo loại bài viết
@@ -120,6 +128,7 @@ class Post extends BaseModel
     {
         // Gán giá trị
         $status = $options['status'] ?? null;
+        $deletedStatus = $options['deleted_status'] ?? 'active';
         $postType = $options['post_type'] ?? null;
         $categoryId = $options['category_id'] ?? null;
         $searchTerm = $options['search_term'] ?? null;
@@ -140,6 +149,14 @@ class Post extends BaseModel
             $params[] = $status;
             $types .= "s";
         }
+
+        //Lọc theo bài xóa mềm
+        if ($deletedStatus === 'active') {
+            $conditions[] = "p.deleted_at IS NULL";
+        } elseif ($status === 'deleted') {
+            $conditions[] = "p.deleted_at IS NOT NULL";
+        }
+
         // Lọc theo loại bài viết
         if ($postType) {
             $conditions[] = "p.post_type = ?";
@@ -213,7 +230,7 @@ class Post extends BaseModel
     {
         // Tự động tạo slug nếu không được cung cấp
         $slugSource = !empty($data['slug']) ? $data['slug'] : $data['title'];
-        $slug = StringUtil::createSlug($slugSource);
+        $slug = StringUtil::generateSlug($slugSource);
 
         $query = "INSERT INTO " . $this->table_name . " 
                     (title, slug, content, excerpt, status, post_type, category_id, 
@@ -225,6 +242,7 @@ class Post extends BaseModel
 
         // Nếu status là 'published', thì gán ngày published_at là hiện tại
         $publishedAt = ($data['status'] === 'published') ? date('Y-m-d H:i:s') : null;
+        $seoTitle = !empty($data['seo_title']) ? $data['seo_title'] : $data['title'];
         $viewCount = 0;
 
         $stmt->bind_param(
@@ -242,7 +260,7 @@ class Post extends BaseModel
             $publishedAt,
             $data['is_featured'],
             $viewCount,
-            $data['seo_title'],
+            $seoTitle,
             $data['meta_description'],
         );
 
@@ -337,8 +355,13 @@ class Post extends BaseModel
             $types .= "i";
         }
         if (isset($data['seo_title'])) {
+            // Nếu seo_title rỗng, lấy giá trị từ title mới (nếu có) hoặc title cũ
+            $seoTitleValue = !empty($data['seo_title'])
+                ? $data['seo_title']
+                : ($data['title'] ?? $currentPost['title']);
+
             $fields[] = "seo_title = ?";
-            $params[] = $data['seo_title'];
+            $params[] = $seoTitleValue;
             $types .= "s";
         }
         if (isset($data['meta_description'])) {
