@@ -25,6 +25,7 @@ class Post extends BaseModel
         $postType = $options['post_type'] ?? null;
         $categoryId = $options['category_id'] ?? null;
         $searchTerm = $options['search_term'] ?? null;
+        $categorySlug = $options['category_slug'] ?? null;
 
         // Câu SELECT với JOIN đến 3 bảng
         $query = "
@@ -71,6 +72,13 @@ class Post extends BaseModel
             $params[] = $categoryId;
             $types .= "i";
         }
+
+        if ($categorySlug) {
+            $conditions[] = "c.slug = ?";
+            $params[] = $categorySlug;
+            $types .= "s";
+        }
+
         // Tìm kiếm nâng cao
         if ($searchTerm) {
             $conditions[] = "(p.title LIKE ? OR p.content LIKE ? OR creator.full_name LIKE ?)";
@@ -205,20 +213,22 @@ class Post extends BaseModel
     {
         // Tự động tạo slug nếu không được cung cấp
         $slugSource = !empty($data['slug']) ? $data['slug'] : $data['title'];
-        $slug= StringUtil::generateSlug($slugSource);
+        $slug = StringUtil::createSlug($slugSource);
 
         $query = "INSERT INTO " . $this->table_name . " 
                     (title, slug, content, excerpt, status, post_type, category_id, 
-                     featured_image_url, created_by_admin_id, updated_by_admin_id, published_at) 
-                  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                     featured_image_url, created_by_admin_id, updated_by_admin_id, published_at,
+                     is_featured, view_count, seo_title, meta_description) 
+                  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         $stmt = $this->db->prepare($query);
 
         // Nếu status là 'published', thì gán ngày published_at là hiện tại
         $publishedAt = ($data['status'] === 'published') ? date('Y-m-d H:i:s') : null;
+        $viewCount = 0;
 
         $stmt->bind_param(
-            "ssssssisiss",
+            "ssssssisissiiss",
             $data['title'],
             $slug,
             $data['content'],
@@ -229,7 +239,11 @@ class Post extends BaseModel
             $data['featured_image_url'],
             $data['admin_id'],
             $data['admin_id'],
-            $publishedAt
+            $publishedAt,
+            $data['is_featured'],
+            $viewCount,
+            $data['seo_title'],
+            $data['meta_description'],
         );
 
         if ($stmt->execute()) {
