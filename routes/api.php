@@ -74,6 +74,16 @@ $router->delete('/api/admin/posts/{id}', $authMiddleware, [$postCtrl, 'destroy']
 $router->post('/api/admin/posts/{id}/restore', $authMiddleware, [$postCtrl, 'restore']);
 $router->delete('/api/admin/posts/{id}/force', $authMiddleware, [$postCtrl, 'forceDelete']);
 
+// --- QUẢN LÝ BẢNG GIÁ (PRICING PACKAGES) ---
+$router->get('/api/admin/pricing-packages', $authMiddleware, [$pricingPackageCtrl, 'index']);
+$router->post('/api/admin/pricing-packages', $authMiddleware, [$pricingPackageCtrl, 'store']);
+$router->get('/api/admin/pricing-packages/{id}', $authMiddleware, [$pricingPackageCtrl, 'show']);
+$router->put('/api/admin/pricing-packages/{id}', $authMiddleware, [$pricingPackageCtrl, 'update']);
+$router->delete('/api/admin/pricing-packages/{id}', $authMiddleware, [$pricingPackageCtrl, 'destroy']);
+
+// PUBLIC
+$router->get('/api/public/pricing-packages', [$publicPricingPackageCtrl, 'index']);
+$router->get('/api/public/pricing-packages/{id}', [$publicPricingPackageCtrl, 'show']);
 
 // // --- ADMIN CUSTOMERS ---
 // $router->get('/api/admin/customers', $authMiddleware, [$customerCtrl, 'index']);
