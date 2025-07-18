@@ -242,6 +242,7 @@ class Post extends BaseModel
 
         // Nếu status là 'published', thì gán ngày published_at là hiện tại
         $publishedAt = ($data['status'] === 'published') ? date('Y-m-d H:i:s') : null;
+        $seoTitle = !empty($data['seo_title']) ? $data['seo_title'] : $data['title'];
         $viewCount = 0;
 
         $stmt->bind_param(
@@ -259,7 +260,7 @@ class Post extends BaseModel
             $publishedAt,
             $data['is_featured'],
             $viewCount,
-            $data['seo_title'],
+            $seoTitle,
             $data['meta_description'],
         );
 
@@ -354,8 +355,13 @@ class Post extends BaseModel
             $types .= "i";
         }
         if (isset($data['seo_title'])) {
+            // Nếu seo_title rỗng, lấy giá trị từ title mới (nếu có) hoặc title cũ
+            $seoTitleValue = !empty($data['seo_title'])
+                ? $data['seo_title']
+                : ($data['title'] ?? $currentPost['title']);
+
             $fields[] = "seo_title = ?";
-            $params[] = $data['seo_title'];
+            $params[] = $seoTitleValue;
             $types .= "s";
         }
         if (isset($data['meta_description'])) {

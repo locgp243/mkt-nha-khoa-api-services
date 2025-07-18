@@ -84,7 +84,7 @@ class CategoryController
                 'created',
                 'category',
                 $newId,
-                ['name' => $data['name'], 'slug' => $data['slug'], 'category_type' => $data['category_type']]
+                ['name' => $data['name'], 'slug' => $slug, 'category_type' => $data['category_type']]
             );
             $this->notificationModel->create(
                 $admin->admin_id,
@@ -126,7 +126,7 @@ class CategoryController
                 'updated',
                 'category',
                 $id,
-                ['old_name' => $existingCategory['name'], 'new_name' => $data['name'], 'old_slug' => $existingCategory['slug'], 'new_slug' => $data['slug'] ?? $existingCategory['slug']]
+                ['old_name' => $existingCategory['name'], 'new_name' => $data['name'], 'old_slug' => $existingCategory['slug'], 'new_slug' => $slug ?? $existingCategory['slug']]
             );
             $this->notificationModel->create(
                 $admin->admin_id,
