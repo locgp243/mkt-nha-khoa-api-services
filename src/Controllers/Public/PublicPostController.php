@@ -37,8 +37,8 @@ class PublicPostController
             'pagination' => [
                 'total_records' => $total,
                 'page' => (int) ($options['page'] ?? 1),
-                'limit' => (int) ($options['limit'] ?? 10),
-                'total_pages' => (int) ($options['limit'] ?? 10) > 0 ? ceil($total / (int) ($options['limit'] ?? 10)) : 0
+                'limit' => (int) ($options['limit'] ?? 3),
+                'total_pages' => (int) ($options['limit'] ?? 3) > 0 ? ceil($total / (int) ($options['limit'] ?? 3)) : 0
             ]
         ]);
     }
