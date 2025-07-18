@@ -213,7 +213,7 @@ class Post extends BaseModel
     {
         // Tự động tạo slug nếu không được cung cấp
         $slugSource = !empty($data['slug']) ? $data['slug'] : $data['title'];
-        $slug = StringUtil::createSlug($slugSource);
+        $slug = StringUtil::generateSlug($slugSource);
 
         $query = "INSERT INTO " . $this->table_name . " 
                     (title, slug, content, excerpt, status, post_type, category_id, 
