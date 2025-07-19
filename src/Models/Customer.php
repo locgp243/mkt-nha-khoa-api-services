@@ -5,7 +5,7 @@ namespace App\Models;
 
 class Customer extends BaseModel
 {
-    protected string $table_name = "customers";
+    protected string $table_name = "nk_customers";
 
     /**
      * Lấy tất cả khách hàng.
