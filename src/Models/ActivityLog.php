@@ -5,7 +5,7 @@ namespace App\Models;
 
 class ActivityLog extends BaseModel
 {
-    protected string $table_name = "activity_logs";
+    protected string $table_name = "nk_activity_logs";
 
     public function create(int $adminId, string $action, ?string $targetType = null, ?int $targetId = null, ?array $details = null): int
     {

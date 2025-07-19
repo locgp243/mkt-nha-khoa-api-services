@@ -5,7 +5,7 @@ namespace App\Models;
 
 class SiteSetting extends BaseModel
 {
-    protected string $table_name = "site_settings";
+    protected string $table_name = "nk_site_settings";
 
     /**
      * Lấy tất cả cài đặt website.
