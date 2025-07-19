@@ -9,7 +9,7 @@ namespace App\Models;
  */
 class Admin extends BaseModel
 {
-    protected string $table_name = "admins";
+    protected string $table_name = "nk_admins";
 
     /**
      * Tìm một admin dựa trên địa chỉ email.
