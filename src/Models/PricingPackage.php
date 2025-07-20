@@ -5,7 +5,7 @@ namespace App\Models;
 
 class PricingPackage extends BaseModel
 {
-    protected string $table_name = "pricing_packages";
+    protected string $table_name = "nk_pricing_packages";
 
     /**
      * Lấy danh sách các gói giá với phân trang, lọc, tìm kiếm và sắp xếp.
@@ -28,8 +28,8 @@ class PricingPackage extends BaseModel
                 updater.full_name AS updater_name
             FROM
                 " . $this->table_name . " AS pp
-            LEFT JOIN admins AS creator ON pp.created_by_admin_id = creator.id
-            LEFT JOIN admins AS updater ON pp.updated_by_admin_id = updater.id
+            LEFT JOIN nk_admins AS creator ON pp.created_by_admin_id = creator.id
+            LEFT JOIN nk_admins AS updater ON pp.updated_by_admin_id = updater.id
         ";
 
         $conditions = [];
