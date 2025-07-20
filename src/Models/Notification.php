@@ -7,7 +7,7 @@ use Ramsey\Uuid\Uuid;
 
 class Notification extends BaseModel
 {
-    protected string $table_name = "notifications";
+    protected string $table_name = "nk_notifications";
 
     public function create(int $adminId, string $type, string $message, ?string $link = null): bool
     {

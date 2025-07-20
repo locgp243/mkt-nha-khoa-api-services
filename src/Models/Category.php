@@ -6,7 +6,7 @@ use App\Utils\StringUtil;
 
 class Category extends BaseModel
 {
-    protected string $table_name = "categories";
+    protected string $table_name = "nk_categories";
 
     /**
      * Lấy danh mục với phân trang, lọc, tìm kiếm và sắp xếp nâng cao.
@@ -32,8 +32,8 @@ class Category extends BaseModel
                 updater.full_name AS updater_name
             FROM
                 " . $this->table_name . " AS c
-            LEFT JOIN admins AS creator ON c.created_by_admin_id = creator.id
-            LEFT JOIN admins AS updater ON c.updated_by_admin_id = updater.id
+            LEFT JOIN nk_admins AS creator ON c.created_by_admin_id = creator.id
+            LEFT JOIN nk_admins AS updater ON c.updated_by_admin_id = updater.id
         ";
 
         $conditions = [];
@@ -107,8 +107,8 @@ class Category extends BaseModel
         $query = "
             SELECT COUNT(c.id) as total
             FROM " . $this->table_name . " AS c
-            LEFT JOIN admins AS creator ON c.created_by_admin_id = creator.id
-            LEFT JOIN admins AS updater ON c.updated_by_admin_id = updater.id
+            LEFT JOIN nk_admins AS creator ON c.created_by_admin_id = creator.id
+            LEFT JOIN nk_admins AS updater ON c.updated_by_admin_id = updater.id
         ";
 
         $conditions = [];
