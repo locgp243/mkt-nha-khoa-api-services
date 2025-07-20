@@ -6,7 +6,7 @@ use App\Utils\StringUtil;
 
 class Post extends BaseModel
 {
-    protected string $table_name = "posts";
+    protected string $table_name = "nk_posts";
 
     /**
      * Lấy danh sách bài viết với đầy đủ tùy chọn lọc, tìm kiếm, sắp xếp.
@@ -37,9 +37,9 @@ class Post extends BaseModel
                 updater.full_name AS updater_name
             FROM
                 " . $this->table_name . " AS p
-            LEFT JOIN categories AS c ON p.category_id = c.id
-            LEFT JOIN admins AS creator ON p.created_by_admin_id = creator.id
-            LEFT JOIN admins AS updater ON p.updated_by_admin_id = updater.id
+            LEFT JOIN nk_categories AS c ON p.category_id = c.id
+            LEFT JOIN nk_admins AS creator ON p.created_by_admin_id = creator.id
+            LEFT JOIN nk_admins AS updater ON p.updated_by_admin_id = updater.id
         ";
 
         $conditions = [];
@@ -215,8 +215,8 @@ class Post extends BaseModel
                 creator.full_name AS creator_name
             FROM
                 " . $this->table_name . " AS p
-            LEFT JOIN categories AS c ON p.category_id = c.id
-            LEFT JOIN admins AS creator ON p.created_by_admin_id = creator.id
+            LEFT JOIN nk_categories AS c ON p.category_id = c.id
+            LEFT JOIN nk_admins AS creator ON p.created_by_admin_id = creator.id
             WHERE p.id = ? AND p.deleted_at IS NULL
             LIMIT 1
         ";
@@ -559,8 +559,8 @@ class Post extends BaseModel
                 creator.full_name AS creator_name
             FROM
                 " . $this->table_name . " AS p
-            LEFT JOIN categories AS c ON p.category_id = c.id
-            LEFT JOIN admins AS creator ON p.created_by_admin_id = creator.id
+            LEFT JOIN nk_categories AS c ON p.category_id = c.id
+            LEFT JOIN nk_admins AS creator ON p.created_by_admin_id = creator.id
             WHERE p.slug = ? AND p.status = 'published' AND p.deleted_at IS NULL
             LIMIT 1
         ";
