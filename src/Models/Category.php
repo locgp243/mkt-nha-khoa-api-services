@@ -212,7 +212,6 @@ class Category extends BaseModel
             $stmt->close();
             return $newId;
         }
-        error_log("Category creation failed: " . $stmt->error);
         $stmt->close();
         return 0;
     }

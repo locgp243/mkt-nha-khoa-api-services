@@ -6,9 +6,9 @@ use App\Core\Request;
 use App\Core\Router;
 use App\Utils\{JwtUtil, FileUploader};
 use App\Middleware\AuthMiddleware;
-use App\Models\{Admin, Category, Post, Customer, SiteSetting, ActivityLog, Notification};
-use App\Controllers\Admin\{AdminAuthController, CategoryController, PostController, CustomerController, SettingController, UploadController};
-use App\Controllers\Public\{PublicPostController, PublicCategoryController};
+use App\Models\{Admin, Category, Post, Customer, SiteSetting, ActivityLog, Notification, PricingPackage};
+use App\Controllers\Admin\{AdminAuthController, CategoryController, PostController, CustomerController, SettingController, UploadController, PricingPackageController};
+use App\Controllers\Public\{PublicPostController, PublicCategoryController, PublicPricingPackageController};
 // --- KHỞI TẠO & CẤU HÌNH BAN ĐẦU ---
 
 if (session_status() === PHP_SESSION_NONE) {
@@ -71,21 +71,30 @@ $customerModel = new Customer($dbConnection);
 $settingModel = new SiteSetting($dbConnection);
 $activityLogModel = new ActivityLog($dbConnection);
 $notificationModel = new Notification($dbConnection);
+$pricingPackageModel = new PricingPackage($dbConnection);
+
 //... các model khác
 
 // 4. Khởi tạo Middleware (phải có sau khi đã có các Utils cần thiết)
 $authMiddleware = new AuthMiddleware($jwtUtil); // <--- Bây giờ $jwtUtil đã tồn tại
 
 // 5. Khởi tạo các Controllers (và inject dependencies vào chúng)
+//// ADMIN
 $adminAuthCtrl = new AdminAuthController($adminModel, $jwtUtil);
 $categoryCtrl = new CategoryController($categoryModel, $activityLogModel, $notificationModel);
 $postCtrl = new PostController($postModel, $activityLogModel, $notificationModel);
+$pricingPackageCtrl = new PricingPackageController($pricingPackageModel, $activityLogModel, $notificationModel);
+
+//// PUBLIC
 $publicPostCtrl = new PublicPostController($postModel, $activityLogModel, $notificationModel);
 $publicCategoryCtrl = new PublicCategoryController($categoryModel, $activityLogModel, $notificationModel);
+$publicPricingPackageCtrl = new PublicPricingPackageController($pricingPackageModel);
+
+
 // $customerCtrl = new CustomerController($customerModel);
 // $settingCtrl = new SettingController($settingModel);
 $uploadCtrl = new UploadController($fileUploader);
-
+// controlle khác ....
 
 // --- ROUTING ---
 $request = new Request();
