@@ -36,7 +36,8 @@ use App\Controllers\Public\{
     PublicPricingPackageController,
     PublicStaticPageController,
     PublicCustomerController,
-    PublicContactController
+    PublicContactController,
+    PublicSettingController
 };
 // --- KHỞI TẠO & CẤU HÌNH BAN ĐẦU ---
 
@@ -119,6 +120,7 @@ $adminStaticPageCtrl = new StaticPageController($staticPageModel, $activityLogMo
 $customerCtrl = new CustomerController($customerModel, $activityLogModel, $notificationModel);
 $adminCtrl = new AdminController($adminModel, $activityLogModel, $notificationModel);
 $adminContactCtrl = new ContactController($contactModel, $activityLogModel, $notificationModel);
+$settingCtrl = new SettingController($settingModel, $activityLogModel, $notificationModel);
 
 //// PUBLIC
 $publicPostCtrl = new PublicPostController($postModel, $activityLogModel, $notificationModel);
@@ -127,6 +129,7 @@ $publicPricingPackageCtrl = new PublicPricingPackageController($pricingPackageMo
 $publicStaticPageCtrl = new PublicStaticPageController($staticPageModel);
 $publicCustomerCtrl = new PublicCustomerController($customerModel);
 $publicContactCtrl = new PublicContactController($contactModel, $notificationModel);
+$publicSettingCtrl = new PublicSettingController($settingModel);
 
 // $customerCtrl = new CustomerController($customerModel);
 // $settingCtrl = new SettingController($settingModel);
