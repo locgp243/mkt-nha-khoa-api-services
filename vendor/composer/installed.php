@@ -4,7 +4,11 @@
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
 <<<<<<< HEAD
+<<<<<<< HEAD
         'reference' => 'eaf7e9713018e92bcbd70330195e6f7e9deb8af9',
+=======
+        'reference' => '30058aef0f4aac4a7e03ea759ac7dcc6d6660f5a',
+>>>>>>> f93a716 (fix: Post model, thêm thư viện nhận thẻ HTML cho phần các trang bài viết, trang tĩnh,...)
 =======
         'reference' => '30058aef0f4aac4a7e03ea759ac7dcc6d6660f5a',
 >>>>>>> f93a716 (fix: Post model, thêm thư viện nhận thẻ HTML cho phần các trang bài viết, trang tĩnh,...)
@@ -135,7 +139,11 @@
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
 <<<<<<< HEAD
+<<<<<<< HEAD
             'reference' => 'eaf7e9713018e92bcbd70330195e6f7e9deb8af9',
+=======
+            'reference' => '30058aef0f4aac4a7e03ea759ac7dcc6d6660f5a',
+>>>>>>> f93a716 (fix: Post model, thêm thư viện nhận thẻ HTML cho phần các trang bài viết, trang tĩnh,...)
 =======
             'reference' => '30058aef0f4aac4a7e03ea759ac7dcc6d6660f5a',
 >>>>>>> f93a716 (fix: Post model, thêm thư viện nhận thẻ HTML cho phần các trang bài viết, trang tĩnh,...)

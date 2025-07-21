@@ -4,11 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-<<<<<<< HEAD
-    "content-hash": "f90377a39b05d52e9132895c36abe50b",
-=======
-    "content-hash": "01f741824d3db8d7b78b650121e90de3",
->>>>>>> f93a716 (fix: Post model, thêm thư viện nhận thẻ HTML cho phần các trang bài viết, trang tĩnh,...)
+    "content-hash": "15ebf7878d441fb6cb7317d521b2bac5",
     "packages": [
         {
             "name": "brick/math",
