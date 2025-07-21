@@ -6,9 +6,33 @@ use App\Core\Request;
 use App\Core\Router;
 use App\Utils\{JwtUtil, FileUploader};
 use App\Middleware\AuthMiddleware;
-use App\Models\{Admin, Category, Post, Customer, SiteSetting, ActivityLog, Notification, PricingPackage};
-use App\Controllers\Admin\{AdminAuthController, CategoryController, PostController, CustomerController, SettingController, UploadController, PricingPackageController};
-use App\Controllers\Public\{PublicPostController, PublicCategoryController, PublicPricingPackageController};
+use App\Models\{
+    Admin,
+    Category,
+    Post,
+    Customer,
+    SiteSetting,
+    ActivityLog,
+    Notification,
+    PricingPackage,
+    StaticPage
+};
+use App\Controllers\Admin\{
+    AdminAuthController,
+    CategoryController,
+    PostController,
+    CustomerController,
+    SettingController,
+    UploadController,
+    PricingPackageController,
+    StaticPageController
+};
+use App\Controllers\Public\{
+    PublicPostController,
+    PublicCategoryController,
+    PublicPricingPackageController,
+    PublicStaticPageController
+};
 // --- KHỞI TẠO & CẤU HÌNH BAN ĐẦU ---
 
 if (session_status() === PHP_SESSION_NONE) {
@@ -72,6 +96,7 @@ $settingModel = new SiteSetting($dbConnection);
 $activityLogModel = new ActivityLog($dbConnection);
 $notificationModel = new Notification($dbConnection);
 $pricingPackageModel = new PricingPackage($dbConnection);
+$staticPageModel = new StaticPage($dbConnection);
 
 //... các model khác
 
@@ -84,12 +109,13 @@ $adminAuthCtrl = new AdminAuthController($adminModel, $jwtUtil);
 $categoryCtrl = new CategoryController($categoryModel, $activityLogModel, $notificationModel);
 $postCtrl = new PostController($postModel, $activityLogModel, $notificationModel);
 $pricingPackageCtrl = new PricingPackageController($pricingPackageModel, $activityLogModel, $notificationModel);
+$adminStaticPageCtrl = new StaticPageController($staticPageModel, $activityLogModel, $notificationModel);
 
 //// PUBLIC
 $publicPostCtrl = new PublicPostController($postModel, $activityLogModel, $notificationModel);
 $publicCategoryCtrl = new PublicCategoryController($categoryModel, $activityLogModel, $notificationModel);
 $publicPricingPackageCtrl = new PublicPricingPackageController($pricingPackageModel);
-
+$publicStaticPageCtrl = new PublicStaticPageController($staticPageModel);
 
 // $customerCtrl = new CustomerController($customerModel);
 // $settingCtrl = new SettingController($settingModel);
