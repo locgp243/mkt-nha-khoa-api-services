@@ -28,6 +28,7 @@ $router->get('/api/health-check', function () {
  * 
  * @var App\Controllers\Public\PublicPostController $publicPostCtrl
  * @var App\Controllers\Public\PublicCategoryController $publicCategoryCtrl
+ * @var App\Controllers\Public\AuthController $publicAuthCtrl
  */
 
 // --- ADMIN AUTH ---
@@ -85,6 +86,19 @@ $router->delete('/api/admin/pricing-packages/{id}', $authMiddleware, [$pricingPa
 $router->get('/api/public/pricing-packages', [$publicPricingPackageCtrl, 'index']);
 $router->get('/api/public/pricing-packages/{id}', [$publicPricingPackageCtrl, 'show']);
 
+
+// --- QUẢN LÝ TRANG TĨNH (STATIC PAGES) ---
+
+// --- ADMIN ROUTES ---
+$router->get('/api/admin/static-pages', $authMiddleware, [$adminStaticPageCtrl, 'index']);
+$router->post('/api/admin/static-pages', $authMiddleware, [$adminStaticPageCtrl, 'store']);
+$router->get('/api/admin/static-pages/{id}', $authMiddleware, [$adminStaticPageCtrl, 'show']);
+$router->put('/api/admin/static-pages/{id}', $authMiddleware, [$adminStaticPageCtrl, 'update']);
+$router->delete('/api/admin/static-pages/{id}', $authMiddleware, [$adminStaticPageCtrl, 'destroy']);
+
+// --- PUBLIC ROUTES ---
+$router->get('/api/public/pages/{slug}', [$publicStaticPageCtrl, 'show']);
+
 // // --- ADMIN CUSTOMERS ---
 // $router->get('/api/admin/customers', $authMiddleware, [$customerCtrl, 'index']);
 // $router->put('/api/admin/customers/{id}/status', $authMiddleware, [$customerCtrl, 'updateStatus']);
@@ -95,3 +109,6 @@ $router->get('/api/public/pricing-packages/{id}', [$publicPricingPackageCtrl, 's
 
 // --- ADMIN UPLOAD ---
 $router->post('/api/admin/upload', $authMiddleware, [$uploadCtrl, 'upload']);
+
+$router->post('/api/send-otp', [$publicAuthCtrl, 'handlePhoneNumberVerification']);
+$router->post('/api/verify-otp', [$publicAuthCtrl, 'verifyOtp']);

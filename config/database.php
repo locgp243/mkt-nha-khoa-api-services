@@ -37,6 +37,7 @@ function getDbConnection(array $config): mysqli
         // Nếu có lỗi kết nối, chúng ta sẽ không tiếp tục chạy ứng dụng.
         // Thay vào đó, ghi lỗi vào log của server để lập trình viên có thể xem.
         error_log("Lỗi kết nối cơ sở dữ liệu: " . $e->getMessage());
+        die("Lỗi chi tiết: " . $e->getMessage()); 
 
         // Và trả về một thông báo lỗi JSON thân thiện cho người dùng cuối.
         // Tuyệt đối không hiển thị chi tiết lỗi của database ra ngoài.

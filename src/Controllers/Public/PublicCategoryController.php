@@ -17,11 +17,10 @@ class PublicCategoryController
     private ActivityLog $activityLogModel;
     private Notification $notificationModel;
 
-    public function __construct(Category $categoryModel, ActivityLog $activityLogModel, Notification $notificationModel)
+    public function __construct(Category $categoryModel)
     {
         $this->categoryModel = $categoryModel;
-        $this->activityLogModel = $activityLogModel;
-        $this->notificationModel = $notificationModel;
+
     }
 
     /**

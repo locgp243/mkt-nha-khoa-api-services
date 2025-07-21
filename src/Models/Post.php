@@ -173,7 +173,7 @@ class Post extends BaseModel
         }
 
         // Lọc theo slug danh mục
-          if ($categorySlug) {
+        if ($categorySlug) {
             $conditions[] = "c.slug = ?";
             $params[] = $categorySlug;
             $types .= "s";

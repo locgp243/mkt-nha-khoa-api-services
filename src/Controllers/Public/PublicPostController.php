@@ -17,11 +17,9 @@ class PublicPostController
     private ActivityLog $activityLogModel;
     private Notification $notificationModel;
 
-    public function __construct(Post $postModel, ActivityLog $activityLogModel, Notification $notificationModel)
+    public function __construct(Post $postModel)
     {
         $this->postModel = $postModel;
-        $this->activityLogModel = $activityLogModel;
-        $this->notificationModel = $notificationModel;
     }
 
     /**
