@@ -15,7 +15,8 @@ use App\Models\{
     ActivityLog,
     Notification,
     PricingPackage,
-    StaticPage
+    StaticPage,
+    Contact
 };
 use App\Controllers\Admin\{
     AdminController,
@@ -26,14 +27,16 @@ use App\Controllers\Admin\{
     SettingController,
     UploadController,
     PricingPackageController,
-    StaticPageController
+    StaticPageController,
+    ContactController
 };
 use App\Controllers\Public\{
     PublicPostController,
     PublicCategoryController,
     PublicPricingPackageController,
     PublicStaticPageController,
-    PublicCustomerController
+    PublicCustomerController,
+    PublicContactController
 };
 // --- KHỞI TẠO & CẤU HÌNH BAN ĐẦU ---
 
@@ -99,6 +102,7 @@ $activityLogModel = new ActivityLog($dbConnection);
 $notificationModel = new Notification($dbConnection);
 $pricingPackageModel = new PricingPackage($dbConnection);
 $staticPageModel = new StaticPage($dbConnection);
+$contactModel = new Contact($dbConnection);
 
 //... các model khác
 
@@ -114,12 +118,15 @@ $pricingPackageCtrl = new PricingPackageController($pricingPackageModel, $activi
 $adminStaticPageCtrl = new StaticPageController($staticPageModel, $activityLogModel, $notificationModel);
 $customerCtrl = new CustomerController($customerModel, $activityLogModel, $notificationModel);
 $adminCtrl = new AdminController($adminModel, $activityLogModel, $notificationModel);
+$adminContactCtrl = new ContactController($contactModel, $activityLogModel, $notificationModel);
+
 //// PUBLIC
 $publicPostCtrl = new PublicPostController($postModel, $activityLogModel, $notificationModel);
 $publicCategoryCtrl = new PublicCategoryController($categoryModel, $activityLogModel, $notificationModel);
 $publicPricingPackageCtrl = new PublicPricingPackageController($pricingPackageModel);
 $publicStaticPageCtrl = new PublicStaticPageController($staticPageModel);
 $publicCustomerCtrl = new PublicCustomerController($customerModel);
+$publicContactCtrl = new PublicContactController($contactModel, $notificationModel);
 
 // $customerCtrl = new CustomerController($customerModel);
 // $settingCtrl = new SettingController($settingModel);

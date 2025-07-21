@@ -120,6 +120,17 @@ $router->get('/api/admin/users/{id}', $authMiddleware, [$adminCtrl, 'show']);
 $router->put('/api/admin/users/{id}', $authMiddleware, [$adminCtrl, 'update']);
 $router->delete('/api/admin/users/{id}', $authMiddleware, [$adminCtrl, 'destroy']);
 $router->post('/api/admin/users/{id}/restore', $authMiddleware, [$adminCtrl, 'restore']); // <<-- Đảm bảo đã có route này
+
+// --- QUẢN LÝ CONTACT ---
+////Admin
+$router->get('/api/admin/contacts', $authMiddleware, [$adminContactCtrl, 'index']);
+$router->get('/api/admin/contacts/{id}', $authMiddleware, [$adminContactCtrl, 'show']);
+$router->put('/api/admin/contacts/{id}', $authMiddleware, [$adminContactCtrl, 'update']);
+$router->delete('/api/admin/contacts/{id}', $authMiddleware, [$adminContactCtrl, 'destroy']);
+
+////Public
+$router->post('/api/public/contact', [$publicContactCtrl, 'store']);
+
 // ...
 
 
