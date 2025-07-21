@@ -7,8 +7,12 @@
         "firebase/php-jwt": "^6.11.1",
         "vlucas/phpdotenv": "^5.6",
         "ramsey/uuid": "^4.9",
+<<<<<<< HEAD
         "guzzlehttp/guzzle": "^7.9",
         "twilio/sdk": "^8.6"
+=======
+        "ezyang/htmlpurifier": "^4.18"
+>>>>>>> f93a716 (fix: Post model, thêm thư viện nhận thẻ HTML cho phần các trang bài viết, trang tĩnh,...)
     },
     "autoload": {
         "psr-4": {

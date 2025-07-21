@@ -3,7 +3,11 @@
         'name' => 'quan-ly-nha-khoa/backend-api',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
+<<<<<<< HEAD
         'reference' => 'eaf7e9713018e92bcbd70330195e6f7e9deb8af9',
+=======
+        'reference' => '30058aef0f4aac4a7e03ea759ac7dcc6d6660f5a',
+>>>>>>> f93a716 (fix: Post model, thêm thư viện nhận thẻ HTML cho phần các trang bài viết, trang tĩnh,...)
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -16,6 +20,15 @@
             'reference' => 'fc7ed316430118cc7836bf45faff18d5dfc8de04',
             'type' => 'library',
             'install_path' => __DIR__ . '/../brick/math',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'ezyang/htmlpurifier' => array(
+            'pretty_version' => 'v4.18.0',
+            'version' => '4.18.0.0',
+            'reference' => 'cb56001e54359df7ae76dc522d08845dc741621b',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../ezyang/htmlpurifier',
             'aliases' => array(),
             'dev_requirement' => false,
         ),
@@ -121,7 +134,11 @@
         'quan-ly-nha-khoa/backend-api' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
+<<<<<<< HEAD
             'reference' => 'eaf7e9713018e92bcbd70330195e6f7e9deb8af9',
+=======
+            'reference' => '30058aef0f4aac4a7e03ea759ac7dcc6d6660f5a',
+>>>>>>> f93a716 (fix: Post model, thêm thư viện nhận thẻ HTML cho phần các trang bài viết, trang tĩnh,...)
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

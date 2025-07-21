@@ -137,8 +137,13 @@ class Post extends BaseModel
         $query = "
             SELECT COUNT(p.id) as total
             FROM " . $this->table_name . " AS p
+<<<<<<< HEAD
             LEFT JOIN categories AS c ON p.category_id = c.id
             LEFT JOIN admins AS creator ON p.created_by_admin_id = creator.id
+=======
+            LEFT JOIN nk_categories AS c ON p.category_id = c.id
+            LEFT JOIN nk_admins AS creator ON p.created_by_admin_id = creator.id
+>>>>>>> f93a716 (fix: Post model, thêm thư viện nhận thẻ HTML cho phần các trang bài viết, trang tĩnh,...)
         ";
 
         $conditions = [];
