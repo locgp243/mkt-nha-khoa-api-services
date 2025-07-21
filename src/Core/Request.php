@@ -2,7 +2,8 @@
 // src/Core/Request.php
 
 namespace App\Core;
-
+use HTMLPurifier;
+use HTMLPurifier_Config;
 /**
  * Lớp Request đại diện cho một yêu cầu HTTP.
  *
@@ -103,7 +104,17 @@ class Request
         if (is_null($data)) {
             return null; // Trả về null nếu đầu vào là null
         }
-        // Loại bỏ các thẻ HTML và PHP, mã hóa các ký tự đặc biệt
-        return htmlspecialchars(strip_tags($data), ENT_QUOTES, 'UTF-8');
+
+        // **Sử dụng HTML Purifier**
+        $config = HTMLPurifier_Config::createDefault();
+
+        // Tùy chọn: bạn có thể cấu hình thêm tại đây nếu muốn
+        // Ví dụ: cho phép nhúng video YouTube
+        // $config->set('HTML.SafeIframe', true);
+        // $config->set('URI.SafeIframeRegexp', '%^(https?://)?(www\.youtube(?:-nocookie)?\.com/embed/)%');
+
+        $purifier = new HTMLPurifier($config);
+
+        return $purifier->purify($data);
     }
 }

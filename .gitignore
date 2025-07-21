@@ -1,0 +1,85 @@
+# ===================================================================
+# Lập trình viên cấp cao - 1000 năm kinh nghiệm
+# File .gitignore toàn diện cho các dự án PHP (Đã tinh chỉnh)
+# ===================================================================
+
+# 1. Dependencies (Thư viện cài đặt qua Composer)
+# Luôn luôn bỏ qua thư mục này và chỉ commit `composer.json` và `composer.lock`.
+# Người khác chỉ cần chạy `composer install` để cài đặt lại.
+/vendor/
+
+# 2. Environment & Sensitive Files (File môi trường & Nhạy cảm)
+# Các file chứa thông tin nhạy cảm: khóa API, mật khẩu, credentials...
+# KHÔNG BAO GIỜ commit các file này lên repository.
+# Thay vào đó, hãy tạo một file mẫu như `.env.example`.
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env.*.local
+
+# File chứa credentials của Google Cloud/Firebase, cực kỳ nhạy cảm.
+google-credentials.json
+
+# 3. Log Files (File ghi log)
+# Log được tạo ra trong quá trình chạy và có thể có kích thước rất lớn.
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# 4. IDE and Editor Directories (Thư mục của IDE/Editor)
+# Cấu hình riêng của từng IDE, không liên quan đến project.
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+nbproject/
+project.properties
+project.xml
+build.properties
+
+# 5. OS Generated Files (File do hệ điều hành tạo ra)
+# Các file hệ thống ẩn của macOS, Windows, Linux.
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# 6. Temporary & Cache Files (File tạm và cache)
+# File được framework hoặc ứng dụng tạo ra để tăng tốc độ.
+/storage/app/public
+/storage/framework/
+/bootstrap/cache/
+cache/
+temp/
+tmp/
+
+# 7. Uploaded Files (File do người dùng tải lên)
+# Thư mục chứa các file do người dùng tải lên (ví dụ: avatar).
+/public/storage
+/public/uploads
+
+# 8. Build & Package Files (File build và đóng gói)
+# Các file được tạo ra trong quá trình build hoặc deploy.
+/build/
+/dist/
+*.phar
+*.zip
+*.tar.gz
+*.rar
+
+# 9. PHPUnit
+# File kết quả của PHPUnit.
+/phpunit.result.cache
+/phpunit.xml
+
+# 10. Các file khác
+# Ví dụ: file cấu hình local không muốn chia sẻ.
+local.ini
+config.local.php
