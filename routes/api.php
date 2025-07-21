@@ -95,6 +95,9 @@ $router->get('/api/admin/static-pages/{id}', $authMiddleware, [$adminStaticPageC
 $router->put('/api/admin/static-pages/{id}', $authMiddleware, [$adminStaticPageCtrl, 'update']);
 $router->delete('/api/admin/static-pages/{id}', $authMiddleware, [$adminStaticPageCtrl, 'destroy']);
 
+// --- PUBLIC ROUTES ---
+$router->get('/api/public/pages/{slug}', [$publicStaticPageCtrl, 'show']);
+
 // --- QUẢN LÝ KHÁCH HÀNG (CUSTOMERS) --- // <<-- THÊM MỚI
 $router->get('/api/admin/customers', $authMiddleware, [$customerCtrl, 'index']);
 $router->post('/api/admin/customers', $authMiddleware, [$customerCtrl, 'store']);
@@ -103,6 +106,10 @@ $router->put('/api/admin/customers/{id}', $authMiddleware, [$customerCtrl, 'upda
 $router->delete('/api/admin/customers/{id}', $authMiddleware, [$customerCtrl, 'destroy']);
 
 //Public
+// === PUBLIC ROUTES ===
+// -- MỚI: Route để khách hàng đăng ký --
+$router->post('/api/public/customers/register', [$publicCustomerCtrl, 'register']);
+// -- CŨ: Route để lấy thông tin công khai --
 $router->get('/api/public/customers/{code}', [$publicCustomerCtrl, 'show']);
 
 // ...
@@ -115,8 +122,7 @@ $router->delete('/api/admin/users/{id}', $authMiddleware, [$adminCtrl, 'destroy'
 $router->post('/api/admin/users/{id}/restore', $authMiddleware, [$adminCtrl, 'restore']); // <<-- Đảm bảo đã có route này
 // ...
 
-// --- PUBLIC ROUTES ---
-$router->get('/api/public/pages/{slug}', [$publicStaticPageCtrl, 'show']);
+
 
 // // --- ADMIN CUSTOMERS ---
 // $router->get('/api/admin/customers', $authMiddleware, [$customerCtrl, 'index']);

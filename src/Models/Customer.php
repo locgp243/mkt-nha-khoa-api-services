@@ -120,23 +120,65 @@ class Customer extends BaseModel
     }
 
     /**
-     * Tạo khách hàng mới.
-     * @param array $data
-     * @return int ID của khách hàng mới.
+     * Tìm khách hàng bằng email (dùng cho chức năng đăng nhập).
+     */
+    public function findByEmail(string $email): ?array
+    {
+        $query = "SELECT * FROM " . $this->table_name . " WHERE email = ? AND deleted_at IS NULL LIMIT 1";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $result = $stmt->get_result()->fetch_assoc();
+        $stmt->close();
+        return $result;
+    }
+
+    /**
+     * Tạo khách hàng mới với mã khách hàng duy nhất được đảm bảo.
+     * @param array $data Dữ liệu khách hàng.
+     * @return int ID của khách hàng mới, hoặc 0 nếu thất bại.
      */
     public function create(array $data): int
     {
-        // Tự động tạo customer_code duy nhất, dễ đọc
-        $customerCode = 'NK' . date('ymd') . strtoupper(substr(uniqid(), 7, 4));
+        $maxTries = 5; // Giới hạn số lần thử để tránh vòng lặp vô tận
+        $customerCode = '';
 
-        $query = "INSERT INTO " . $this->table_name . " 
-                  (customer_code, referring_doctor_1, referring_doctor_2, email, phone, `clinic_name`, address, city, country, registered_at) 
-                  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
+        // Vòng lặp để đảm bảo tạo được mã khách hàng duy nhất
+        for ($i = 0; $i < $maxTries; $i++) {
+            $potentialCode = 'NK' . date('ymd') . strtoupper(substr(uniqid(), 7, 4));
+
+            // Sử dụng hàm findByCustomerCode đã có để kiểm tra
+            $existingCustomer = $this->findByCustomerCode($potentialCode);
+
+            if (!$existingCustomer) {
+                // Nếu không tìm thấy khách hàng nào có mã này, mã này là duy nhất
+                $customerCode = $potentialCode;
+                break; // Thoát khỏi vòng lặp
+            }
+        }
+
+        // Nếu sau $maxTries lần vẫn không tạo được mã duy nhất (xác suất cực kỳ thấp)
+        if (empty($customerCode)) {
+            // Tạo một mã dự phòng chắc chắn không trùng
+            $customerCode = 'NK' . time();
+        }
+
+        // --- Phần còn lại của hàm giữ nguyên ---
+
+        // Mã hóa mật khẩu nếu có
+        $passwordHash = null;
+        if (!empty($data['password'])) {
+            $passwordHash = password_hash($data['password'], PASSWORD_DEFAULT);
+        }
+
+        $query = "INSERT INTO " . $this->table_name . "
+                  (customer_code, referring_doctor_1, referring_doctor_2, email, phone, `clinic_name`, address, city, country, password_hash, registered_at)
+                  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
 
         $stmt = $this->db->prepare($query);
         $stmt->bind_param(
-            "sssssssss",
-            $customerCode,
+            "ssssssssss",
+            $customerCode, // Sử dụng mã đã được xác thực là duy nhất
             $data['referring_doctor_1'],
             $data['referring_doctor_2'],
             $data['email'],
@@ -144,15 +186,22 @@ class Customer extends BaseModel
             $data['clinic_name'],
             $data['address'],
             $data['city'],
-            $data['country']
+            $data['country'],
+            $passwordHash
         );
 
         if ($stmt->execute()) {
             return $stmt->insert_id;
         }
+
+        // Ghi log lỗi nếu cần thiết
+        error_log("Customer creation failed after ensuring unique code: " . $stmt->error);
         return 0;
     }
 
+    /**
+     * Cập nhật thông tin khách hàng, bao gồm mật khẩu.
+     */
     public function update(int $id, array $data): bool
     {
         $fields = [];
@@ -163,12 +212,17 @@ class Customer extends BaseModel
 
         foreach ($allowedFields as $field) {
             if (isset($data[$field])) {
-                // Sử dụng backtick cho tên cột clinic name có khoảng trắng
-                $columnName = ($field === 'clinic_name') ? '`clinic_name`' : $field;
-                $fields[] = "$columnName = ?";
+                $fields[] = "`$field` = ?";
                 $params[] = $data[$field];
                 $types .= "s";
             }
+        }
+
+        // Xử lý cập nhật mật khẩu riêng
+        if (isset($data['password']) && !empty($data['password'])) {
+            $fields[] = "`password_hash` = ?";
+            $params[] = password_hash($data['password'], PASSWORD_DEFAULT);
+            $types .= "s";
         }
 
         if (empty($fields)) {
