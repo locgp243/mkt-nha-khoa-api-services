@@ -131,17 +131,16 @@ $router->delete('/api/admin/contacts/{id}', $authMiddleware, [$adminContactCtrl,
 ////Public
 $router->post('/api/public/contact', [$publicContactCtrl, 'store']);
 
+
+// --- QUẢN LÝ CÀI ĐẶT TRANG (SITE SETTINGS) ---
+
+// --- PUBLIC ROUTE ---
+$router->get('/api/public/settings', [$publicSettingCtrl, 'index']);
+
+// --- ADMIN ROUTES ---
+$router->get('/api/admin/settings', $authMiddleware, [$settingCtrl, 'index']);
+$router->put('/api/admin/settings', $authMiddleware, [$settingCtrl, 'update']);
 // ...
-
-
-
-// // --- ADMIN CUSTOMERS ---
-// $router->get('/api/admin/customers', $authMiddleware, [$customerCtrl, 'index']);
-// $router->put('/api/admin/customers/{id}/status', $authMiddleware, [$customerCtrl, 'updateStatus']);
-
-// // --- ADMIN SETTINGS ---
-// $router->get('/api/admin/settings', $authMiddleware, [$settingCtrl, 'index']);
-// $router->put('/api/admin/settings', $authMiddleware, [$settingCtrl, 'update']);
 
 // --- ADMIN UPLOAD ---
 $router->post('/api/admin/upload', $authMiddleware, [$uploadCtrl, 'upload']);
