@@ -137,7 +137,7 @@ class Post extends BaseModel
         $query = "
             SELECT COUNT(p.id) as total
             FROM " . $this->table_name . " AS p
-            LEFT JOIN categories AS c ON p.category_id = c.id
+            LEFT JOIN nk_categories AS c ON p.category_id = c.id
             LEFT JOIN nk_admins AS creator ON p.created_by_admin_id = creator.id
         ";
 
