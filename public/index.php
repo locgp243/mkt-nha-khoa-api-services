@@ -6,10 +6,13 @@ use App\Core\{Request, Router};
 use App\Utils\{JwtUtil, FileUploader, SmsService}; // THÊM SmsService
 use App\Middleware\AuthMiddleware;
 <<<<<<< HEAD
+<<<<<<< HEAD
 use App\Models\{Admin, Category, Post, Customer, SiteSetting, ActivityLog, Notification, PricingPackage, Otp}; // THÊM Otp
 use App\Controllers\Admin\{AdminAuthController, CategoryController, PostController, CustomerController, SettingController, UploadController, PricingPackageController};
 use App\Controllers\Public\{PublicPostController, PublicCategoryController, PublicPricingPackageController, PublicAuthController};
 =======
+=======
+>>>>>>> 30058ae (feat: Thêm api trang tĩnh, cả admin, public)
 use App\Models\{
     Admin,
     Category,
@@ -99,7 +102,11 @@ $activityLogModel = new ActivityLog($dbConnection);
 $notificationModel = new Notification($dbConnection);
 $pricingPackageModel = new PricingPackage($dbConnection);
 <<<<<<< HEAD
+<<<<<<< HEAD
 $otpModel = new Otp($dbConnection); // THÊM VÀO
+=======
+$staticPageModel = new StaticPage($dbConnection);
+>>>>>>> 30058ae (feat: Thêm api trang tĩnh, cả admin, public)
 =======
 $staticPageModel = new StaticPage($dbConnection);
 >>>>>>> 30058ae (feat: Thêm api trang tĩnh, cả admin, public)
@@ -114,7 +121,10 @@ $categoryCtrl = new CategoryController($categoryModel, $activityLogModel, $notif
 $postCtrl = new PostController($postModel, $activityLogModel, $notificationModel);
 $pricingPackageCtrl = new PricingPackageController($pricingPackageModel, $activityLogModel, $notificationModel);
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> 30058ae (feat: Thêm api trang tĩnh, cả admin, public)
 $adminStaticPageCtrl = new StaticPageController($staticPageModel, $activityLogModel, $notificationModel);
 
 //// PUBLIC

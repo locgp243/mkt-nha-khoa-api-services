@@ -73,8 +73,11 @@ tmp/
 *.zip
 *.tar.gz
 *.rar
+<<<<<<< HEAD
 /vendor
 
+=======
+>>>>>>> 30058ae (feat: Thêm api trang tĩnh, cả admin, public)
 
 # 9. PHPUnit
 # File kết quả của PHPUnit.
@@ -84,6 +87,10 @@ tmp/
 # 10. Các file khác
 # Ví dụ: file cấu hình local không muốn chia sẻ.
 local.ini
+<<<<<<< HEAD
 config.local.php.env
 .env.local
 .env.*.local
+=======
+config.local.php
+>>>>>>> 30058ae (feat: Thêm api trang tĩnh, cả admin, public)
