@@ -18,6 +18,7 @@ use App\Models\{
     StaticPage
 };
 use App\Controllers\Admin\{
+    AdminController,
     AdminAuthController,
     CategoryController,
     PostController,
@@ -31,7 +32,8 @@ use App\Controllers\Public\{
     PublicPostController,
     PublicCategoryController,
     PublicPricingPackageController,
-    PublicStaticPageController
+    PublicStaticPageController,
+    PublicCustomerController
 };
 // --- KHỞI TẠO & CẤU HÌNH BAN ĐẦU ---
 
@@ -110,12 +112,14 @@ $categoryCtrl = new CategoryController($categoryModel, $activityLogModel, $notif
 $postCtrl = new PostController($postModel, $activityLogModel, $notificationModel);
 $pricingPackageCtrl = new PricingPackageController($pricingPackageModel, $activityLogModel, $notificationModel);
 $adminStaticPageCtrl = new StaticPageController($staticPageModel, $activityLogModel, $notificationModel);
-
+$customerCtrl = new CustomerController($customerModel, $activityLogModel, $notificationModel);
+$adminCtrl = new AdminController($adminModel, $activityLogModel, $notificationModel);
 //// PUBLIC
 $publicPostCtrl = new PublicPostController($postModel, $activityLogModel, $notificationModel);
 $publicCategoryCtrl = new PublicCategoryController($categoryModel, $activityLogModel, $notificationModel);
 $publicPricingPackageCtrl = new PublicPricingPackageController($pricingPackageModel);
 $publicStaticPageCtrl = new PublicStaticPageController($staticPageModel);
+$publicCustomerCtrl = new PublicCustomerController($customerModel);
 
 // $customerCtrl = new CustomerController($customerModel);
 // $settingCtrl = new SettingController($settingModel);
