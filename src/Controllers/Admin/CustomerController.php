@@ -7,8 +7,7 @@ use App\Core\Request;
 use App\Core\Response;
 use App\Models\Customer;
 use App\Models\ActivityLog;
-use App\Models\Notification; // <<-- Đảm bảo đã use Notification
-
+use App\Models\Notification;
 class CustomerController
 {
     private Customer $customerModel;
@@ -20,7 +19,7 @@ class CustomerController
     {
         $this->customerModel = $customerModel;
         $this->activityLogModel = $activityLogModel;
-        $this->notificationModel = $notificationModel; // <<-- Gán giá trị
+        $this->notificationModel = $notificationModel;
     }
 
     /**
@@ -30,6 +29,10 @@ class CustomerController
     {
         $options = $request->getBody();
         $customers = $this->customerModel->getAll($options);
+        // Loại bỏ password hash khỏi tất cả các kết quả
+        foreach ($customers as &$customer) {
+            unset($customer['password_hash']);
+        }
         $total = $this->customerModel->getTotalCount($options);
 
         return new Response([
@@ -52,6 +55,7 @@ class CustomerController
         if (!$customer) {
             return new Response(['message' => 'Khách hàng không tồn tại.'], 404);
         }
+        unset($customer['password_hash']);
         return new Response(['data' => $customer]);
     }
 
