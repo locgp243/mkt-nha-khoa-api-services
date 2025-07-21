@@ -84,4 +84,6 @@ tmp/
 # 10. Các file khác
 # Ví dụ: file cấu hình local không muốn chia sẻ.
 local.ini
-config.local.php
+config.local.php.env
+.env.local
+.env.*.local
