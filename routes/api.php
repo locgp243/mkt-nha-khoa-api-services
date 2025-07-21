@@ -85,6 +85,19 @@ $router->delete('/api/admin/pricing-packages/{id}', $authMiddleware, [$pricingPa
 $router->get('/api/public/pricing-packages', [$publicPricingPackageCtrl, 'index']);
 $router->get('/api/public/pricing-packages/{id}', [$publicPricingPackageCtrl, 'show']);
 
+
+// --- QUẢN LÝ TRANG TĨNH (STATIC PAGES) ---
+
+// --- ADMIN ROUTES ---
+$router->get('/api/admin/static-pages', $authMiddleware, [$adminStaticPageCtrl, 'index']);
+$router->post('/api/admin/static-pages', $authMiddleware, [$adminStaticPageCtrl, 'store']);
+$router->get('/api/admin/static-pages/{id}', $authMiddleware, [$adminStaticPageCtrl, 'show']);
+$router->put('/api/admin/static-pages/{id}', $authMiddleware, [$adminStaticPageCtrl, 'update']);
+$router->delete('/api/admin/static-pages/{id}', $authMiddleware, [$adminStaticPageCtrl, 'destroy']);
+
+// --- PUBLIC ROUTES ---
+$router->get('/api/public/pages/{slug}', [$publicStaticPageCtrl, 'show']);
+
 // // --- ADMIN CUSTOMERS ---
 // $router->get('/api/admin/customers', $authMiddleware, [$customerCtrl, 'index']);
 // $router->put('/api/admin/customers/{id}/status', $authMiddleware, [$customerCtrl, 'updateStatus']);
