@@ -73,6 +73,8 @@ tmp/
 *.zip
 *.tar.gz
 *.rar
+/vendor
+
 
 # 9. PHPUnit
 # File kết quả của PHPUnit.
