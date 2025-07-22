@@ -28,11 +28,6 @@ $router->get('/api/health-check', function () {
  * 
  * @var App\Controllers\Public\PublicPostController $publicPostCtrl
  * @var App\Controllers\Public\PublicCategoryController $publicCategoryCtrl
-<<<<<<< HEAD
- * @var App\Controllers\Public\PublicAuthController $publicAuthCtrl
- * 
-=======
->>>>>>> 85a69b00cb8ffbbf76378d0a6eccd5ee43e44613
  */
 
 // --- ADMIN AUTH ---
@@ -117,12 +112,6 @@ $router->post('/api/public/customers/register', [$publicCustomerCtrl, 'register'
 // -- CŨ: Route để lấy thông tin công khai --
 $router->get('/api/public/customers/{code}', [$publicCustomerCtrl, 'show']);
 
-<<<<<<< HEAD
-$router->post('/api/send-otp', [$publicAuthCtrl, 'handlePhoneNumberVerification']);
-$router->post('/api/verify-otp', [$publicAuthCtrl, 'verifyOtp']);
-
-=======
->>>>>>> 85a69b00cb8ffbbf76378d0a6eccd5ee43e44613
 // ...
 // --- QUẢN LÝ NGƯỜI DÙNG (ADMINS/USERS) ---
 $router->get('/api/admin/users', $authMiddleware, [$adminCtrl, 'index']);
@@ -131,20 +120,6 @@ $router->get('/api/admin/users/{id}', $authMiddleware, [$adminCtrl, 'show']);
 $router->put('/api/admin/users/{id}', $authMiddleware, [$adminCtrl, 'update']);
 $router->delete('/api/admin/users/{id}', $authMiddleware, [$adminCtrl, 'destroy']);
 $router->post('/api/admin/users/{id}/restore', $authMiddleware, [$adminCtrl, 'restore']); // <<-- Đảm bảo đã có route này
-<<<<<<< HEAD
-// ...
-
-
-
-// // --- ADMIN CUSTOMERS ---
-// $router->get('/api/admin/customers', $authMiddleware, [$customerCtrl, 'index']);
-// $router->put('/api/admin/customers/{id}/status', $authMiddleware, [$customerCtrl, 'updateStatus']);
-
-// // --- ADMIN SETTINGS ---
-// $router->get('/api/admin/settings', $authMiddleware, [$settingCtrl, 'index']);
-// $router->put('/api/admin/settings', $authMiddleware, [$settingCtrl, 'update']);
-
-=======
 
 // --- QUẢN LÝ CONTACT ---
 ////Admin
@@ -167,6 +142,9 @@ $router->get('/api/admin/settings', $authMiddleware, [$settingCtrl, 'index']);
 $router->put('/api/admin/settings', $authMiddleware, [$settingCtrl, 'update']);
 // ...
 
->>>>>>> 85a69b00cb8ffbbf76378d0a6eccd5ee43e44613
+//// Public OTP
+$router->post('/api/send-otp', [$publicAuthCtrl, 'handlePhoneNumberVerification']);
+$router->post('/api/verify-otp', [$publicAuthCtrl, 'verifyOtp']);
+
 // --- ADMIN UPLOAD ---
 $router->post('/api/admin/upload', $authMiddleware, [$uploadCtrl, 'upload']);

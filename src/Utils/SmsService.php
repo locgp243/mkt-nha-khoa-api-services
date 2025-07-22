@@ -33,7 +33,7 @@ class SmsService
     {
         // Remove all non-digit characters
         $phone = preg_replace('/[^\d]/', '', $phoneNumber);
-        
+
         // Check Vietnam phone number format
         return preg_match('/^(0|84)(3|5|7|8|9)\d{8}$/', $phone);
     }
@@ -44,15 +44,15 @@ class SmsService
     private function normalizePhoneNumber(string $phoneNumber): string
     {
         $phone = preg_replace('/[^\d]/', '', $phoneNumber);
-        
+
         if (str_starts_with($phone, '0')) {
             return '84' . substr($phone, 1);
         }
-        
+
         if (!str_starts_with($phone, '84')) {
             return '84' . $phone;
         }
-        
+
         return $phone;
     }
 
@@ -77,18 +77,18 @@ class SmsService
         $content = "[{$brandName}] Ma xac thuc cua ban la: " . $otpCode;
 
         $postData = [
-            'ApiKey'      => $this->apiKey,
-            'SecretKey'   => $this->secretKey,
-            'Content'     => $content,
-            'Phone'       => $normalizedPhone,
-            'SmsType'     => '2', // OTP message type
-            'IsUnicode'   => '0',
-            'Brandname'   => 'test'
+            'ApiKey' => $this->apiKey,
+            'SecretKey' => $this->secretKey,
+            'Content' => $content,
+            'Phone' => $normalizedPhone,
+            'SmsType' => '2', // OTP message type
+            'IsUnicode' => '0',
+            'Brandname' => 'test'
         ];
 
         try {
             $this->log('info', "Sending OTP to: {$normalizedPhone}");
-            
+
             $response = $this->httpClient->post($this->apiUrl, [
                 'form_params' => $postData,
                 'headers' => [
@@ -101,7 +101,7 @@ class SmsService
             if (isset($body['CodeResult']) && $body['CodeResult'] == 100) {
                 $this->log('info', "OTP sent successfully to: {$normalizedPhone}");
                 return [
-                    'success' => true, 
+                    'success' => true,
                     'message' => 'SMS đã được gửi thành công',
                     'sms_id' => $body['SMSID'] ?? null
                 ];
@@ -109,7 +109,7 @@ class SmsService
                 $errorMessage = $body['ErrorMessage'] ?? 'Unknown error';
                 $this->log('error', "eSMS.vn API Error: " . $errorMessage);
                 return [
-                    'success' => false, 
+                    'success' => false,
                     'message' => 'Không thể gửi SMS: ' . $errorMessage,
                     'error_code' => $body['CodeResult'] ?? null
                 ];
@@ -118,14 +118,14 @@ class SmsService
         } catch (GuzzleException $e) {
             $error = "GuzzleException when calling eSMS.vn API: " . $e->getMessage();
             $this->log('error', $error);
-            
+
             if ($e->hasResponse()) {
                 $responseBody = $e->getResponse()->getBody()->getContents();
                 $this->log('error', "eSMS.vn Error Response Body: " . $responseBody);
             }
-            
+
             return [
-                'success' => false, 
+                'success' => false,
                 'message' => 'Lỗi kết nối khi gửi SMS'
             ];
         }
@@ -152,17 +152,17 @@ class SmsService
         $content = "[{$brandName}] " . $message;
 
         $postData = [
-            'ApiKey'      => $this->apiKey,
-            'SecretKey'   => $this->secretKey,
-            'Content'     => $content,
-            'Phone'       => $normalizedPhone,
-            'SmsType'     => '1', // Regular message type
-            'IsUnicode'   => '0'
+            'ApiKey' => $this->apiKey,
+            'SecretKey' => $this->secretKey,
+            'Content' => $content,
+            'Phone' => $normalizedPhone,
+            'SmsType' => '1', // Regular message type
+            'IsUnicode' => '0'
         ];
 
         try {
             $this->log('info', "Sending SMS to: {$normalizedPhone}");
-            
+
             $response = $this->httpClient->post($this->apiUrl, [
                 'form_params' => $postData
             ]);
@@ -172,7 +172,7 @@ class SmsService
             if (isset($body['CodeResult']) && $body['CodeResult'] == 100) {
                 $this->log('info', "SMS sent successfully to: {$normalizedPhone}");
                 return [
-                    'success' => true, 
+                    'success' => true,
                     'message' => 'SMS đã được gửi thành công',
                     'sms_id' => $body['SMSID'] ?? null
                 ];
@@ -180,7 +180,7 @@ class SmsService
                 $errorMessage = $body['ErrorMessage'] ?? 'Unknown error';
                 $this->log('error', "eSMS.vn API Error: " . $errorMessage);
                 return [
-                    'success' => false, 
+                    'success' => false,
                     'message' => 'Không thể gửi SMS: ' . $errorMessage
                 ];
             }
@@ -188,9 +188,9 @@ class SmsService
         } catch (GuzzleException $e) {
             $error = "GuzzleException when calling eSMS.vn API: " . $e->getMessage();
             $this->log('error', $error);
-            
+
             return [
-                'success' => false, 
+                'success' => false,
                 'message' => 'Lỗi kết nối khi gửi SMS'
             ];
         }

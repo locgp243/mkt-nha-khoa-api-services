@@ -13,7 +13,8 @@ use GuzzleHttp\Exception\GuzzleException;
  * * Đây là phiên bản nâng cấp, áp dụng Dependency Injection và các best practices.
  * Đảm bảo em đã cài Guzzle: `composer require guzzlehttp/guzzle`
  */
-class PublicAuthController {
+class PublicAuthController
+{
 
     private HttpClient $httpClient;
 
@@ -27,14 +28,15 @@ class PublicAuthController {
         private SmsService $smsService
     ) {
         $this->httpClient = new HttpClient([
-            'timeout'  => 5.0, // Set timeout cho các request ra ngoài
+            'timeout' => 5.0, // Set timeout cho các request ra ngoài
         ]);
     }
-    
+
     /**
      * Hàm helper để trả về JSON response một cách nhất quán.
      */
-    private function jsonResponse(int $statusCode, array $data): void {
+    private function jsonResponse(int $statusCode, array $data): void
+    {
         http_response_code($statusCode);
         header('Content-Type: application/json; charset=utf-8');
         echo json_encode($data);
@@ -44,17 +46,18 @@ class PublicAuthController {
     /**
      * Xác minh reCAPTCHA token bằng Guzzle - mạnh mẽ và an toàn hơn.
      */
-    private function verifyRecaptcha(string $token): bool {
+    private function verifyRecaptcha(string $token): bool
+    {
         $secretKey = $_ENV['RECAPTCHA_SECRET_KEY'];
         if (empty($secretKey)) {
             error_log('RECAPTCHA_SECRET_KEY is not set in .env file');
             return false;
         }
-        
+
         try {
             $response = $this->httpClient->post('https://www.google.com/recaptcha/api/siteverify', [
                 'form_params' => [
-                    'secret'   => $secretKey,
+                    'secret' => $secretKey,
                     'response' => $token,
                 ]
             ]);
@@ -67,11 +70,12 @@ class PublicAuthController {
             return false;
         }
     }
-    
+
     /**
      * Xử lý yêu cầu gửi OTP.
      */
-    public function handlePhoneNumberVerification(): void {
+    public function handlePhoneNumberVerification(): void
+    {
         $data = json_decode(file_get_contents('php://input'), true);
         $phoneNumber = $data['phoneNumber'] ?? null;
         $captchaToken = $data['captchaToken'] ?? null;
@@ -96,14 +100,15 @@ class PublicAuthController {
         if ($otpCode && $this->smsService->sendOtp($phoneNumber, $otpCode)) {
             $this->jsonResponse(200, ['success' => true, 'message' => 'Mã OTP đã được gửi thành công.']);
         }
-        
+
         $this->jsonResponse(500, ['success' => false, 'message' => 'Lỗi hệ thống, không thể gửi OTP.']);
     }
 
     /**
      * Xử lý xác minh mã OTP (nhất quán sử dụng JSON).
      */
-    public function verifyOtp(): void {
+    public function verifyOtp(): void
+    {
         $data = json_decode(file_get_contents('php://input'), true);
         $phoneNumber = $data['phoneNumber'] ?? null;
         $otpCode = $data['otp'] ?? null;
@@ -116,7 +121,7 @@ class PublicAuthController {
             // TODO: Tạo session hoặc JWT token cho user tại đây
             $this->jsonResponse(200, ['success' => true, 'message' => 'Xác thực thành công.']);
         }
-        
+
         $this->jsonResponse(400, ['success' => false, 'message' => 'Mã OTP không hợp lệ hoặc đã hết hạn.']);
     }
 }

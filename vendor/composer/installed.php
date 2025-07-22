@@ -3,11 +3,7 @@
         'name' => 'quan-ly-nha-khoa/backend-api',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-<<<<<<< HEAD
-        'reference' => '6c03e6e6329d267e7a119427f16bc9b01a50a060',
-=======
-        'reference' => '30058aef0f4aac4a7e03ea759ac7dcc6d6660f5a',
->>>>>>> 85a69b00cb8ffbbf76378d0a6eccd5ee43e44613
+        'reference' => 'f1cd1f6b5481551fa1e08adb6a6a638bfab4a4e9',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -50,7 +46,6 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
-<<<<<<< HEAD
         'guzzlehttp/guzzle' => array(
             'pretty_version' => '7.9.3',
             'version' => '7.9.3.0',
@@ -78,8 +73,6 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
-=======
->>>>>>> 85a69b00cb8ffbbf76378d0a6eccd5ee43e44613
         'phpoption/phpoption' => array(
             'pretty_version' => '1.9.3',
             'version' => '1.9.3.0',
@@ -89,7 +82,6 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
-<<<<<<< HEAD
         'psr/http-client' => array(
             'pretty_version' => '1.0.3',
             'version' => '1.0.3.0',
@@ -138,19 +130,12 @@
         'quan-ly-nha-khoa/backend-api' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => '6c03e6e6329d267e7a119427f16bc9b01a50a060',
-=======
-        'quan-ly-nha-khoa/backend-api' => array(
-            'pretty_version' => 'dev-master',
-            'version' => 'dev-master',
-            'reference' => '30058aef0f4aac4a7e03ea759ac7dcc6d6660f5a',
->>>>>>> 85a69b00cb8ffbbf76378d0a6eccd5ee43e44613
+            'reference' => 'f1cd1f6b5481551fa1e08adb6a6a638bfab4a4e9',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
             'dev_requirement' => false,
         ),
-<<<<<<< HEAD
         'ralouphie/getallheaders' => array(
             'pretty_version' => '3.0.3',
             'version' => '3.0.3.0',
@@ -160,8 +145,6 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
-=======
->>>>>>> 85a69b00cb8ffbbf76378d0a6eccd5ee43e44613
         'ramsey/collection' => array(
             'pretty_version' => '2.1.1',
             'version' => '2.1.1.0',
@@ -186,7 +169,6 @@
                 0 => '4.9.0',
             ),
         ),
-<<<<<<< HEAD
         'symfony/deprecation-contracts' => array(
             'pretty_version' => 'v3.6.0',
             'version' => '3.6.0.0',
@@ -196,8 +178,6 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
-=======
->>>>>>> 85a69b00cb8ffbbf76378d0a6eccd5ee43e44613
         'symfony/polyfill-ctype' => array(
             'pretty_version' => 'v1.32.0',
             'version' => '1.32.0.0',

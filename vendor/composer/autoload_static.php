@@ -4,25 +4,16 @@
 
 namespace Composer\Autoload;
 
-<<<<<<< HEAD
-class ComposerStaticInit187338a240c9aecd05eb590d0cbd8f9d
+class ComposerStaticInitf02e94ca361018277dd5c2a8f40d70d2
 {
     public static $files = array (
         '7b11c4dc42b3b3023073cb14e519683c' => __DIR__ . '/..' . '/ralouphie/getallheaders/src/getallheaders.php',
         '6e3fae29631ef280660b3cdad06f25a8' => __DIR__ . '/..' . '/symfony/deprecation-contracts/function.php',
-=======
-class ComposerStaticInitf02e94ca361018277dd5c2a8f40d70d2
-{
-    public static $files = array (
->>>>>>> 85a69b00cb8ffbbf76378d0a6eccd5ee43e44613
         '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
         'a4a119a56e50fbb293281d9a48007e0e' => __DIR__ . '/..' . '/symfony/polyfill-php80/bootstrap.php',
         '2cffec82183ee1cea088009cef9a6fc3' => __DIR__ . '/..' . '/ezyang/htmlpurifier/library/HTMLPurifier.composer.php',
-<<<<<<< HEAD
         '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
-=======
->>>>>>> 85a69b00cb8ffbbf76378d0a6eccd5ee43e44613
         'e39a8b23c42d4e1452234d762b03835a' => __DIR__ . '/..' . '/ramsey/uuid/src/functions.php',
     );
 
@@ -40,21 +31,15 @@ class ComposerStaticInitf02e94ca361018277dd5c2a8f40d70d2
         ),
         'P' => 
         array (
-<<<<<<< HEAD
             'Psr\\Http\\Message\\' => 17,
             'Psr\\Http\\Client\\' => 16,
-=======
->>>>>>> 85a69b00cb8ffbbf76378d0a6eccd5ee43e44613
             'PhpOption\\' => 10,
         ),
         'G' => 
         array (
-<<<<<<< HEAD
             'GuzzleHttp\\Psr7\\' => 16,
             'GuzzleHttp\\Promise\\' => 19,
             'GuzzleHttp\\' => 11,
-=======
->>>>>>> 85a69b00cb8ffbbf76378d0a6eccd5ee43e44613
             'GrahamCampbell\\ResultType\\' => 26,
         ),
         'F' => 
@@ -96,23 +81,19 @@ class ComposerStaticInitf02e94ca361018277dd5c2a8f40d70d2
         array (
             0 => __DIR__ . '/..' . '/ramsey/collection/src',
         ),
-<<<<<<< HEAD
         'Psr\\Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psr/http-factory/src',
-            1 => __DIR__ . '/..' . '/psr/http-message/src',
+            0 => __DIR__ . '/..' . '/psr/http-message/src',
+            1 => __DIR__ . '/..' . '/psr/http-factory/src',
         ),
         'Psr\\Http\\Client\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/http-client/src',
         ),
-=======
->>>>>>> 85a69b00cb8ffbbf76378d0a6eccd5ee43e44613
         'PhpOption\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpoption/phpoption/src/PhpOption',
         ),
-<<<<<<< HEAD
         'GuzzleHttp\\Psr7\\' => 
         array (
             0 => __DIR__ . '/..' . '/guzzlehttp/psr7/src',
@@ -125,8 +106,6 @@ class ComposerStaticInitf02e94ca361018277dd5c2a8f40d70d2
         array (
             0 => __DIR__ . '/..' . '/guzzlehttp/guzzle/src',
         ),
-=======
->>>>>>> 85a69b00cb8ffbbf76378d0a6eccd5ee43e44613
         'GrahamCampbell\\ResultType\\' => 
         array (
             0 => __DIR__ . '/..' . '/graham-campbell/result-type/src',
@@ -171,17 +150,10 @@ class ComposerStaticInitf02e94ca361018277dd5c2a8f40d70d2
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-<<<<<<< HEAD
-            $loader->prefixLengthsPsr4 = ComposerStaticInit187338a240c9aecd05eb590d0cbd8f9d::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit187338a240c9aecd05eb590d0cbd8f9d::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInit187338a240c9aecd05eb590d0cbd8f9d::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInit187338a240c9aecd05eb590d0cbd8f9d::$classMap;
-=======
             $loader->prefixLengthsPsr4 = ComposerStaticInitf02e94ca361018277dd5c2a8f40d70d2::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInitf02e94ca361018277dd5c2a8f40d70d2::$prefixDirsPsr4;
             $loader->prefixesPsr0 = ComposerStaticInitf02e94ca361018277dd5c2a8f40d70d2::$prefixesPsr0;
             $loader->classMap = ComposerStaticInitf02e94ca361018277dd5c2a8f40d70d2::$classMap;
->>>>>>> 85a69b00cb8ffbbf76378d0a6eccd5ee43e44613
 
         }, null, ClassLoader::class);
     }
