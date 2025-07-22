@@ -18,7 +18,10 @@
 .env.test.local
 .env.production.local
 .env.*.local
+<<<<<<< HEAD
+=======
 !.env.example
+>>>>>>> 85a69b00cb8ffbbf76378d0a6eccd5ee43e44613
 
 # File chứa credentials của Google Cloud/Firebase, cực kỳ nhạy cảm.
 google-credentials.json
