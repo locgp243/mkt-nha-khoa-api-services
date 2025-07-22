@@ -27,23 +27,29 @@ use Composer\Semver\VersionParser;
 class InstalledVersions
 {
     /**
+<<<<<<< HEAD
      * @var string|null if set (by reflection by Composer), this should be set to the path where this class is being copied to
      * @internal
      */
     private static $selfDir = null;
 
     /**
+=======
+>>>>>>> 85a69b00cb8ffbbf76378d0a6eccd5ee43e44613
      * @var mixed[]|null
      * @psalm-var array{root: array{name: string, pretty_version: string, version: string, reference: string|null, type: string, install_path: string, aliases: string[], dev: bool}, versions: array<string, array{pretty_version?: string, version?: string, reference?: string|null, type?: string, install_path?: string, aliases?: string[], dev_requirement: bool, replaced?: string[], provided?: string[]}>}|array{}|null
      */
     private static $installed;
 
     /**
+<<<<<<< HEAD
      * @var bool
      */
     private static $installedIsLocalDir;
 
     /**
+=======
+>>>>>>> 85a69b00cb8ffbbf76378d0a6eccd5ee43e44613
      * @var bool|null
      */
     private static $canGetVendors;
@@ -109,7 +115,11 @@ class InstalledVersions
     {
         foreach (self::getInstalled() as $installed) {
             if (isset($installed['versions'][$packageName])) {
+<<<<<<< HEAD
                 return $includeDevRequirements || !isset($installed['versions'][$packageName]['dev_requirement']) || $installed['versions'][$packageName]['dev_requirement'] === false;
+=======
+                return $includeDevRequirements || empty($installed['versions'][$packageName]['dev_requirement']);
+>>>>>>> 85a69b00cb8ffbbf76378d0a6eccd5ee43e44613
             }
         }
 
@@ -130,7 +140,11 @@ class InstalledVersions
      */
     public static function satisfies(VersionParser $parser, $packageName, $constraint)
     {
+<<<<<<< HEAD
         $constraint = $parser->parseConstraints((string) $constraint);
+=======
+        $constraint = $parser->parseConstraints($constraint);
+>>>>>>> 85a69b00cb8ffbbf76378d0a6eccd5ee43e44613
         $provided = $parser->parseConstraints(self::getVersionRanges($packageName));
 
         return $provided->matches($constraint);
@@ -320,6 +334,7 @@ class InstalledVersions
     {
         self::$installed = $data;
         self::$installedByVendor = array();
+<<<<<<< HEAD
 
         // when using reload, we disable the duplicate protection to ensure that self::$installed data is
         // always returned, but we cannot know whether it comes from the installed.php in __DIR__ or not,
@@ -338,6 +353,8 @@ class InstalledVersions
         }
 
         return self::$selfDir;
+=======
+>>>>>>> 85a69b00cb8ffbbf76378d0a6eccd5ee43e44613
     }
 
     /**
@@ -351,6 +368,7 @@ class InstalledVersions
         }
 
         $installed = array();
+<<<<<<< HEAD
         $copiedLocalDir = false;
 
         if (self::$canGetVendors) {
@@ -372,6 +390,19 @@ class InstalledVersions
                 if (self::$installedIsLocalDir && $vendorDir.'/composer' === $selfDir) {
                     $copiedLocalDir = true;
                 }
+=======
+
+        if (self::$canGetVendors) {
+            foreach (ClassLoader::getRegisteredLoaders() as $vendorDir => $loader) {
+                if (isset(self::$installedByVendor[$vendorDir])) {
+                    $installed[] = self::$installedByVendor[$vendorDir];
+                } elseif (is_file($vendorDir.'/composer/installed.php')) {
+                    $installed[] = self::$installedByVendor[$vendorDir] = require $vendorDir.'/composer/installed.php';
+                    if (null === self::$installed && strtr($vendorDir.'/composer', '\\', '/') === strtr(__DIR__, '\\', '/')) {
+                        self::$installed = $installed[count($installed) - 1];
+                    }
+                }
+>>>>>>> 85a69b00cb8ffbbf76378d0a6eccd5ee43e44613
             }
         }
 
@@ -379,17 +410,25 @@ class InstalledVersions
             // only require the installed.php file if this file is loaded from its dumped location,
             // and not from its source location in the composer/composer package, see https://github.com/composer/composer/issues/9937
             if (substr(__DIR__, -8, 1) !== 'C') {
+<<<<<<< HEAD
                 /** @var array{root: array{name: string, pretty_version: string, version: string, reference: string|null, type: string, install_path: string, aliases: string[], dev: bool}, versions: array<string, array{pretty_version?: string, version?: string, reference?: string|null, type?: string, install_path?: string, aliases?: string[], dev_requirement: bool, replaced?: string[], provided?: string[]}>} $required */
                 $required = require __DIR__ . '/installed.php';
                 self::$installed = $required;
+=======
+                self::$installed = require __DIR__ . '/installed.php';
+>>>>>>> 85a69b00cb8ffbbf76378d0a6eccd5ee43e44613
             } else {
                 self::$installed = array();
             }
         }
+<<<<<<< HEAD
 
         if (self::$installed !== array() && !$copiedLocalDir) {
             $installed[] = self::$installed;
         }
+=======
+        $installed[] = self::$installed;
+>>>>>>> 85a69b00cb8ffbbf76378d0a6eccd5ee43e44613
 
         return $installed;
     }

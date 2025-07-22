@@ -4,7 +4,11 @@
 // Khai báo các lớp sẽ sử dụng để dễ đọc hơn
 use App\Core\Request;
 use App\Core\Router;
+<<<<<<< HEAD
 use App\Utils\{JwtUtil, FileUploader, smsService};
+=======
+use App\Utils\{JwtUtil, FileUploader};
+>>>>>>> 85a69b00cb8ffbbf76378d0a6eccd5ee43e44613
 use App\Middleware\AuthMiddleware;
 use App\Models\{
     Admin,
@@ -16,7 +20,11 @@ use App\Models\{
     Notification,
     PricingPackage,
     StaticPage,
+<<<<<<< HEAD
     Otp
+=======
+    Contact
+>>>>>>> 85a69b00cb8ffbbf76378d0a6eccd5ee43e44613
 };
 use App\Controllers\Admin\{
     AdminController,
@@ -27,7 +35,12 @@ use App\Controllers\Admin\{
     SettingController,
     UploadController,
     PricingPackageController,
+<<<<<<< HEAD
     StaticPageController
+=======
+    StaticPageController,
+    ContactController
+>>>>>>> 85a69b00cb8ffbbf76378d0a6eccd5ee43e44613
 };
 use App\Controllers\Public\{
     PublicPostController,
@@ -35,7 +48,12 @@ use App\Controllers\Public\{
     PublicPricingPackageController,
     PublicStaticPageController,
     PublicCustomerController,
+<<<<<<< HEAD
     PublicAuthController
+=======
+    PublicContactController,
+    PublicSettingController
+>>>>>>> 85a69b00cb8ffbbf76378d0a6eccd5ee43e44613
 };
 // --- KHỞI TẠO & CẤU HÌNH BAN ĐẦU ---
 
@@ -91,9 +109,12 @@ $dbConnection = getDbConnection($config['database']);
 $jwtUtil = new JwtUtil($config['jwt']); // <--- DÒNG BỊ THIẾU ĐÃ ĐƯỢC THÊM VÀO
 $fileUploader = new FileUploader();
 
+<<<<<<< HEAD
 $otpModel = new Otp($dbConnection); 
 $smsService = new SmsService();
 
+=======
+>>>>>>> 85a69b00cb8ffbbf76378d0a6eccd5ee43e44613
 // 3. Khởi tạo các Models
 $adminModel = new Admin($dbConnection);
 $categoryModel = new Category($dbConnection);
@@ -104,6 +125,10 @@ $activityLogModel = new ActivityLog($dbConnection);
 $notificationModel = new Notification($dbConnection);
 $pricingPackageModel = new PricingPackage($dbConnection);
 $staticPageModel = new StaticPage($dbConnection);
+<<<<<<< HEAD
+=======
+$contactModel = new Contact($dbConnection);
+>>>>>>> 85a69b00cb8ffbbf76378d0a6eccd5ee43e44613
 
 //... các model khác
 
@@ -119,13 +144,24 @@ $pricingPackageCtrl = new PricingPackageController($pricingPackageModel, $activi
 $adminStaticPageCtrl = new StaticPageController($staticPageModel, $activityLogModel, $notificationModel);
 $customerCtrl = new CustomerController($customerModel, $activityLogModel, $notificationModel);
 $adminCtrl = new AdminController($adminModel, $activityLogModel, $notificationModel);
+<<<<<<< HEAD
+=======
+$adminContactCtrl = new ContactController($contactModel, $activityLogModel, $notificationModel);
+$settingCtrl = new SettingController($settingModel, $activityLogModel, $notificationModel);
+
+>>>>>>> 85a69b00cb8ffbbf76378d0a6eccd5ee43e44613
 //// PUBLIC
 $publicPostCtrl = new PublicPostController($postModel, $activityLogModel, $notificationModel);
 $publicCategoryCtrl = new PublicCategoryController($categoryModel, $activityLogModel, $notificationModel);
 $publicPricingPackageCtrl = new PublicPricingPackageController($pricingPackageModel);
 $publicStaticPageCtrl = new PublicStaticPageController($staticPageModel);
 $publicCustomerCtrl = new PublicCustomerController($customerModel);
+<<<<<<< HEAD
 $publicAuthCtrl = new PublicAuthController($otpModel, $smsService);
+=======
+$publicContactCtrl = new PublicContactController($contactModel, $notificationModel);
+$publicSettingCtrl = new PublicSettingController($settingModel);
+>>>>>>> 85a69b00cb8ffbbf76378d0a6eccd5ee43e44613
 
 // $customerCtrl = new CustomerController($customerModel);
 // $settingCtrl = new SettingController($settingModel);

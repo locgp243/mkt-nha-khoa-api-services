@@ -28,8 +28,11 @@ $router->get('/api/health-check', function () {
  * 
  * @var App\Controllers\Public\PublicPostController $publicPostCtrl
  * @var App\Controllers\Public\PublicCategoryController $publicCategoryCtrl
+<<<<<<< HEAD
  * @var App\Controllers\Public\PublicAuthController $publicAuthCtrl
  * 
+=======
+>>>>>>> 85a69b00cb8ffbbf76378d0a6eccd5ee43e44613
  */
 
 // --- ADMIN AUTH ---
@@ -114,9 +117,12 @@ $router->post('/api/public/customers/register', [$publicCustomerCtrl, 'register'
 // -- CŨ: Route để lấy thông tin công khai --
 $router->get('/api/public/customers/{code}', [$publicCustomerCtrl, 'show']);
 
+<<<<<<< HEAD
 $router->post('/api/send-otp', [$publicAuthCtrl, 'handlePhoneNumberVerification']);
 $router->post('/api/verify-otp', [$publicAuthCtrl, 'verifyOtp']);
 
+=======
+>>>>>>> 85a69b00cb8ffbbf76378d0a6eccd5ee43e44613
 // ...
 // --- QUẢN LÝ NGƯỜI DÙNG (ADMINS/USERS) ---
 $router->get('/api/admin/users', $authMiddleware, [$adminCtrl, 'index']);
@@ -125,6 +131,7 @@ $router->get('/api/admin/users/{id}', $authMiddleware, [$adminCtrl, 'show']);
 $router->put('/api/admin/users/{id}', $authMiddleware, [$adminCtrl, 'update']);
 $router->delete('/api/admin/users/{id}', $authMiddleware, [$adminCtrl, 'destroy']);
 $router->post('/api/admin/users/{id}/restore', $authMiddleware, [$adminCtrl, 'restore']); // <<-- Đảm bảo đã có route này
+<<<<<<< HEAD
 // ...
 
 
@@ -137,5 +144,29 @@ $router->post('/api/admin/users/{id}/restore', $authMiddleware, [$adminCtrl, 're
 // $router->get('/api/admin/settings', $authMiddleware, [$settingCtrl, 'index']);
 // $router->put('/api/admin/settings', $authMiddleware, [$settingCtrl, 'update']);
 
+=======
+
+// --- QUẢN LÝ CONTACT ---
+////Admin
+$router->get('/api/admin/contacts', $authMiddleware, [$adminContactCtrl, 'index']);
+$router->get('/api/admin/contacts/{id}', $authMiddleware, [$adminContactCtrl, 'show']);
+$router->put('/api/admin/contacts/{id}', $authMiddleware, [$adminContactCtrl, 'update']);
+$router->delete('/api/admin/contacts/{id}', $authMiddleware, [$adminContactCtrl, 'destroy']);
+
+////Public
+$router->post('/api/public/contact', [$publicContactCtrl, 'store']);
+
+
+// --- QUẢN LÝ CÀI ĐẶT TRANG (SITE SETTINGS) ---
+
+// --- PUBLIC ROUTE ---
+$router->get('/api/public/settings', [$publicSettingCtrl, 'index']);
+
+// --- ADMIN ROUTES ---
+$router->get('/api/admin/settings', $authMiddleware, [$settingCtrl, 'index']);
+$router->put('/api/admin/settings', $authMiddleware, [$settingCtrl, 'update']);
+// ...
+
+>>>>>>> 85a69b00cb8ffbbf76378d0a6eccd5ee43e44613
 // --- ADMIN UPLOAD ---
 $router->post('/api/admin/upload', $authMiddleware, [$uploadCtrl, 'upload']);

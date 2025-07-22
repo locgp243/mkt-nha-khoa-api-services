@@ -7,9 +7,13 @@
         "firebase/php-jwt": "^6.11.1",
         "vlucas/phpdotenv": "^5.6",
         "ramsey/uuid": "^4.9",
+<<<<<<< HEAD
         "ezyang/htmlpurifier": "^4.18",
         "guzzlehttp/guzzle": "^7.0"   
 
+=======
+        "ezyang/htmlpurifier": "^4.18"
+>>>>>>> 85a69b00cb8ffbbf76378d0a6eccd5ee43e44613
     },
     "autoload": {
         "psr-4": {
