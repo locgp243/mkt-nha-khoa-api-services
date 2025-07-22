@@ -29,7 +29,8 @@ use App\Controllers\Admin\{
     UploadController,
     PricingPackageController,
     StaticPageController,
-    ContactController
+    ContactController,
+    ActivityLogController
 };
 use App\Controllers\Public\{
     PublicPostController,
@@ -125,6 +126,7 @@ $customerCtrl = new CustomerController($customerModel, $activityLogModel, $notif
 $adminCtrl = new AdminController($adminModel, $activityLogModel, $notificationModel);
 $adminContactCtrl = new ContactController($contactModel, $activityLogModel, $notificationModel);
 $settingCtrl = new SettingController($settingModel, $activityLogModel, $notificationModel);
+$activityLogCtrl = new ActivityLogController($activityLogModel);
 
 //// PUBLIC
 $publicPostCtrl = new PublicPostController($postModel, $activityLogModel, $notificationModel);

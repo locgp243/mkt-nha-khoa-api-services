@@ -146,5 +146,8 @@ $router->put('/api/admin/settings', $authMiddleware, [$settingCtrl, 'update']);
 $router->post('/api/send-otp', [$publicAuthCtrl, 'handlePhoneNumberVerification']);
 $router->post('/api/verify-otp', [$publicAuthCtrl, 'verifyOtp']);
 
+// --- NHẬT KÝ HOẠT ĐỘNG ---
+$router->get('/api/admin/activity-logs', $authMiddleware, [$activityLogCtrl, 'index']);
+
 // --- ADMIN UPLOAD ---
 $router->post('/api/admin/upload', $authMiddleware, [$uploadCtrl, 'upload']);

@@ -44,7 +44,7 @@ class SettingController
         }
 
         if ($this->siteSettingModel->updateSettings($settingsData)) {
-            $this->activityLogModel->create($admin->admin_id, 'updated', 'site_settings', null, ['count' => count($settingsData)]);
+            $this->activityLogModel->create($admin->admin_id, 'updated', 'site_settings', null, ['data' => $settingsData]);
             $this->notificationModel->create($admin->admin_id, 'settings_updated', 'Cài đặt chung của trang web đã được cập nhật.');
 
             return new Response(['message' => 'Cập nhật cài đặt thành công!']);

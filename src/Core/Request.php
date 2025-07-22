@@ -90,6 +90,30 @@ class Request
     }
 
     /**
+     * Lấy một giá trị từ $_POST (dành cho form-data).
+     * @param string $key The key from the $_POST array.
+     * @param mixed $default The default value to return if the key is not found.
+     * @return mixed
+     */
+    public function getFromPost(string $key, mixed $default = null): mixed
+    {
+        // Dữ liệu từ form-data sẽ nằm trong $_POST
+        // Chúng ta cũng nên sanitize nó
+        return isset($_POST[$key]) ? $this->sanitize($_POST[$key]) : $default;
+    }
+
+    /**
+     * Lấy file đã tải lên.
+     * @param string $key The key of the file in the $_FILES array.
+     * @return array|null
+     */
+    public function getFile(string $key): ?array
+    {
+        // Không cần sanitize dữ liệu file, chỉ cần kiểm tra sự tồn tại
+        return $_FILES[$key] ?? null;
+    }
+
+    /**
      * Làm sạch dữ liệu đầu vào để tăng cường bảo mật.
      * @param mixed $data Dữ liệu cần làm sạch.
      * @return mixed
