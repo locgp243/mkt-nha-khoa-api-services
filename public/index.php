@@ -30,7 +30,8 @@ use App\Controllers\Admin\{
     PricingPackageController,
     StaticPageController,
     ContactController,
-    ActivityLogController
+    ActivityLogController,
+    DashboardController
 };
 use App\Controllers\Public\{
     PublicPostController,
@@ -127,6 +128,7 @@ $adminCtrl = new AdminController($adminModel, $activityLogModel, $notificationMo
 $adminContactCtrl = new ContactController($contactModel, $activityLogModel, $notificationModel);
 $settingCtrl = new SettingController($settingModel, $activityLogModel, $notificationModel);
 $activityLogCtrl = new ActivityLogController($activityLogModel);
+$dashboardCtrl = new DashboardController($customerModel);
 
 //// PUBLIC
 $publicPostCtrl = new PublicPostController($postModel, $activityLogModel, $notificationModel);

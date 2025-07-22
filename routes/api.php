@@ -148,6 +148,7 @@ $router->post('/api/verify-otp', [$publicAuthCtrl, 'verifyOtp']);
 
 // --- NHẬT KÝ HOẠT ĐỘNG ---
 $router->get('/api/admin/activity-logs', $authMiddleware, [$activityLogCtrl, 'index']);
-
+// --- DASHBOARD ---
+$router->get('/api/admin/dashboard-stats', $authMiddleware, [$dashboardCtrl, 'getStatistics']);
 // --- ADMIN UPLOAD ---
 $router->post('/api/admin/upload', $authMiddleware, [$uploadCtrl, 'upload']);

@@ -265,4 +265,77 @@ class Customer extends BaseModel
         $stmt->close();
         return $count > 0;
     }
+
+    /**
+     * Lấy số lượng đăng ký mới trong một khoảng thời gian.
+     * @param string $interval - Ví dụ: '1 MONTH', '1 DAY', '1 YEAR'
+     * @return int
+     */
+    public function getNewRegistrationsCount(string $interval = '1 MONTH'): int
+    {
+        $query = "SELECT COUNT(id) as count FROM " . $this->table_name . " WHERE registered_at >= NOW() - INTERVAL " . $interval;
+        $result = $this->db->query($query);
+        return (int) $result->fetch_assoc()['count'];
+    }
+
+    /**
+     * Lấy danh sách các khách hàng đăng ký gần đây nhất.
+     * @param int $limit
+     * @return array
+     */
+    public function getRecentRegistrations(int $limit = 5): array
+    {
+        $query = "SELECT id, clinic_name, email, registered_at FROM " . $this->table_name . " WHERE deleted_at IS NULL ORDER BY registered_at DESC LIMIT ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param("i", $limit);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $customers = $result->fetch_all(MYSQLI_ASSOC);
+        $stmt->close();
+        return $customers;
+    }
+
+    /**
+     * Thống kê lượt đăng ký theo từng ngày, tháng, hoặc năm.
+     * @param string $period 'day', 'month', 'year'
+     * @return array
+     */
+    public function getRegistrationStatsByPeriod(string $period = 'day'): array
+    {
+        switch (strtolower($period)) {
+            case 'month':
+                $format = '%Y-%m'; // Nhóm theo tháng
+                $interval = '12 MONTH';
+                $date_column_alias = 'month';
+                break;
+            case 'year':
+                $format = '%Y'; // Nhóm theo năm
+                $interval = '5 YEAR';
+                $date_column_alias = 'year';
+                break;
+            default: // 'day'
+                $format = '%Y-%m-%d'; // Nhóm theo ngày
+                $interval = '7 DAY';
+                $date_column_alias = 'day';
+                break;
+        }
+
+        $query = "
+            SELECT 
+                DATE_FORMAT(registered_at, ?) as " . $date_column_alias . ",
+                COUNT(id) as signups
+            FROM " . $this->table_name . "
+            WHERE registered_at >= NOW() - INTERVAL " . $interval . "
+            GROUP BY " . $date_column_alias . "
+            ORDER BY " . $date_column_alias . " ASC
+        ";
+
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param("s", $format);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $stats = $result->fetch_all(MYSQLI_ASSOC);
+        $stmt->close();
+        return $stats;
+    }
 }
