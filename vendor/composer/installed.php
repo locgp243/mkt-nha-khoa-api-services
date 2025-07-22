@@ -3,7 +3,7 @@
         'name' => 'quan-ly-nha-khoa/backend-api',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => 'f1cd1f6b5481551fa1e08adb6a6a638bfab4a4e9',
+        'reference' => 'bd3b8a0e3114b214334c2581c7d0120baf5189a7',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -130,7 +130,7 @@
         'quan-ly-nha-khoa/backend-api' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => 'f1cd1f6b5481551fa1e08adb6a6a638bfab4a4e9',
+            'reference' => 'bd3b8a0e3114b214334c2581c7d0120baf5189a7',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
