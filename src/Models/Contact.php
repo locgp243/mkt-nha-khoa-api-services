@@ -42,10 +42,10 @@ class Contact extends BaseModel
         }
 
         if ($searchTerm) {
-            $conditions[] = "(c.full_name LIKE ? OR c.email LIKE ? OR c.subject LIKE ?)";
+            $conditions[] = "(c.full_name LIKE ? OR c.email LIKE ? OR c.subject LIKE ? OR c.phone LIKE ?)";
             $searchTermLike = "%" . $searchTerm . "%";
-            $params = array_merge($params, [$searchTermLike, $searchTermLike, $searchTermLike]);
-            $types .= "sss";
+            $params = array_merge($params, [$searchTermLike, $searchTermLike, $searchTermLike, $searchTermLike]);
+            $types .= "ssss";
         }
 
         if (!empty($conditions)) {

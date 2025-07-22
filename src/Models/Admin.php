@@ -82,7 +82,7 @@ class Admin extends BaseModel
      */
     public function findByEmail(string $email): ?array
     {
-        $query = "SELECT id, full_name, email, password_hash, role, status FROM " . $this->table_name . " WHERE email = ? LIMIT 1";
+        $query = "SELECT id, full_name, email, password_hash, role, status, deleted_at  FROM " . $this->table_name . " WHERE email = ? LIMIT 1";
 
         // Chuẩn bị câu lệnh
         $stmt = $this->db->prepare($query);

@@ -44,7 +44,7 @@ class AdminAuthController
         $admin = $this->adminModel->findByEmail($data['email']);
 
         // 3. Xác thực
-        if (!$admin || !password_verify($data['password'], $admin['password_hash'])) {
+        if (!$admin || !password_verify($data['password'], $admin['password_hash']) || $admin['deleted_at'] !== null) {
             return new Response([
                 'status' => 'error',
                 'message' => 'Email hoặc mật khẩu không chính xác.'
