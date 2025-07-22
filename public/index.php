@@ -4,7 +4,7 @@
 // Khai báo các lớp sẽ sử dụng để dễ đọc hơn
 use App\Core\Request;
 use App\Core\Router;
-use App\Utils\{JwtUtil, FileUploader};
+use App\Utils\{JwtUtil, FileUploader, SmsService};
 use App\Middleware\AuthMiddleware;
 use App\Models\{
     Admin,
@@ -16,7 +16,8 @@ use App\Models\{
     Notification,
     PricingPackage,
     StaticPage,
-    Contact
+    Contact,
+    Otp
 };
 use App\Controllers\Admin\{
     AdminController,
@@ -37,7 +38,8 @@ use App\Controllers\Public\{
     PublicStaticPageController,
     PublicCustomerController,
     PublicContactController,
-    PublicSettingController
+    PublicSettingController,
+    PublicAuthController
 };
 // --- KHỞI TẠO & CẤU HÌNH BAN ĐẦU ---
 
@@ -92,6 +94,8 @@ $dbConnection = getDbConnection($config['database']);
 // 2. Khởi tạo các Utilities (phải có trước khi Controller/Middleware cần)
 $jwtUtil = new JwtUtil($config['jwt']); // <--- DÒNG BỊ THIẾU ĐÃ ĐƯỢC THÊM VÀO
 $fileUploader = new FileUploader();
+$smsService = new SmsService();
+
 
 // 3. Khởi tạo các Models
 $adminModel = new Admin($dbConnection);
@@ -104,7 +108,7 @@ $notificationModel = new Notification($dbConnection);
 $pricingPackageModel = new PricingPackage($dbConnection);
 $staticPageModel = new StaticPage($dbConnection);
 $contactModel = new Contact($dbConnection);
-
+$otpModel = new Otp($dbConnection);
 //... các model khác
 
 // 4. Khởi tạo Middleware (phải có sau khi đã có các Utils cần thiết)
@@ -130,7 +134,7 @@ $publicStaticPageCtrl = new PublicStaticPageController($staticPageModel);
 $publicCustomerCtrl = new PublicCustomerController($customerModel);
 $publicContactCtrl = new PublicContactController($contactModel, $notificationModel);
 $publicSettingCtrl = new PublicSettingController($settingModel);
-
+$publicAuthCtrl = new PublicAuthController($otpModel, $smsService);
 // $customerCtrl = new CustomerController($customerModel);
 // $settingCtrl = new SettingController($settingModel);
 $uploadCtrl = new UploadController($fileUploader);

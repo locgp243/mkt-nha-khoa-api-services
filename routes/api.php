@@ -142,5 +142,9 @@ $router->get('/api/admin/settings', $authMiddleware, [$settingCtrl, 'index']);
 $router->put('/api/admin/settings', $authMiddleware, [$settingCtrl, 'update']);
 // ...
 
+//// Public OTP
+$router->post('/api/send-otp', [$publicAuthCtrl, 'handlePhoneNumberVerification']);
+$router->post('/api/verify-otp', [$publicAuthCtrl, 'verifyOtp']);
+
 // --- ADMIN UPLOAD ---
 $router->post('/api/admin/upload', $authMiddleware, [$uploadCtrl, 'upload']);
