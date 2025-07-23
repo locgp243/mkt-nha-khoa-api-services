@@ -300,34 +300,81 @@ class Customer extends BaseModel
      * @param string $period 'day', 'month', 'year'
      * @return array
      */
-    public function getRegistrationStatsByPeriod(string $period = 'day'): array
+    public function getRegistrationStatsByPeriod(string $period = 'day', ?int $year = null): array
     {
+        $dateSeriesQuery = "";
+        $format = '';
+        $dateColumnAlias = '';
+
+        // TẠO BẢNG TẠM CHỨA CHUỖI NGÀY/THÁNG
         switch (strtolower($period)) {
             case 'month':
-                $format = '%Y-%m'; // Nhóm theo tháng
-                $interval = '12 MONTH';
-                $date_column_alias = 'month';
+                $format = '%Y-%m';
+                $dateColumnAlias = 'month';
+                // Tạo chuỗi 12 tháng gần nhất
+                $dateSeriesQuery = "
+                    SELECT DATE_FORMAT(a.Date, '%Y-%m') AS period
+                    FROM (
+                        SELECT (CURDATE() - INTERVAL (a.a + (10 * b.a)) MONTH) as Date
+                        FROM (SELECT 0 AS a UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9) AS a
+                        CROSS JOIN (SELECT 0 AS a UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9) AS b
+                    ) a
+                    WHERE a.Date BETWEEN CURDATE() - INTERVAL 11 MONTH AND CURDATE()
+                    GROUP BY period ORDER BY period ASC
+                ";
                 break;
+
             case 'year':
-                $format = '%Y'; // Nhóm theo năm
-                $interval = '5 YEAR';
-                $date_column_alias = 'year';
+                $format = '%Y-%m';
+                $dateColumnAlias = 'month'; // Vẫn nhóm theo tháng để có 12 cột
+                $targetYear = $year ?? (int) date('Y');
+                // Tạo chuỗi 12 tháng của năm được chọn
+                $dateSeries = [];
+                for ($m = 1; $m <= 12; $m++) {
+                    $monthStr = str_pad($m, 2, '0', STR_PAD_LEFT);
+                    $dateSeries[] = "SELECT '{$targetYear}-{$monthStr}' AS period";
+                }
+                $dateSeriesQuery = implode(" UNION ALL ", $dateSeries);
                 break;
+
             default: // 'day'
-                $format = '%Y-%m-%d'; // Nhóm theo ngày
-                $interval = '7 DAY';
-                $date_column_alias = 'day';
+                $format = '%Y-%m-%d';
+                $dateColumnAlias = 'day';
+                // Tạo chuỗi 7 ngày gần nhất
+                $dateSeriesQuery = "
+                    SELECT DATE_FORMAT(a.Date, '%Y-%m-%d') AS period
+                    FROM (
+                        SELECT (CURDATE() - INTERVAL (a.a + (10 * b.a)) DAY) as Date
+                        FROM (SELECT 0 AS a UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9) AS a
+                        CROSS JOIN (SELECT 0 AS a UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL SELECT 5 UNION ALL SELECT 6 UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9) AS b
+                    ) a
+                    WHERE a.Date BETWEEN CURDATE() - INTERVAL 6 DAY AND CURDATE()
+                    ORDER BY a.Date ASC
+                ";
                 break;
         }
 
-        $query = "
+        // TRUY VẤN DỮ LIỆU ĐĂNG KÝ THỰC TẾ
+        $subQuery = "
             SELECT 
-                DATE_FORMAT(registered_at, ?) as " . $date_column_alias . ",
+                DATE_FORMAT(registered_at, ?) as period,
                 COUNT(id) as signups
             FROM " . $this->table_name . "
-            WHERE registered_at >= NOW() - INTERVAL " . $interval . "
-            GROUP BY " . $date_column_alias . "
-            ORDER BY " . $date_column_alias . " ASC
+            GROUP BY period
+        ";
+
+        // CÂU TRUY VẤN CUỐI CÙNG: KẾT HỢP BẢNG TẠM VÀ DỮ LIỆU THỰC TẾ
+        $query = "
+            SELECT 
+                ds.period AS " . $dateColumnAlias . ",
+                COALESCE(rs.signups, 0) as signups
+            FROM 
+                (" . $dateSeriesQuery . ") AS ds
+            LEFT JOIN 
+                (" . $subQuery . ") AS rs 
+                ON ds.period = rs.period
+            ORDER BY 
+                ds.period ASC
         ";
 
         $stmt = $this->db->prepare($query);
@@ -337,5 +384,33 @@ class Customer extends BaseModel
         $stats = $result->fetch_all(MYSQLI_ASSOC);
         $stmt->close();
         return $stats;
+    }
+
+    /**
+     * Lấy số lượng đăng ký mới của tháng này và so sánh với tháng trước.
+     * @return array
+     */
+    public function getNewRegistrationsCountWithComparison(): array
+    {
+        // Lấy số lượng đăng ký tháng này (từ đầu tháng đến hiện tại)
+        $queryThisMonth = "SELECT COUNT(id) as count FROM " . $this->table_name . " WHERE YEAR(registered_at) = YEAR(CURDATE()) AND MONTH(registered_at) = MONTH(CURDATE())";
+        $thisMonthCount = (int) $this->db->query($queryThisMonth)->fetch_assoc()['count'];
+
+        // Lấy số lượng đăng ký của tháng trước
+        $queryLastMonth = "SELECT COUNT(id) as count FROM " . $this->table_name . " WHERE YEAR(registered_at) = YEAR(CURDATE() - INTERVAL 1 MONTH) AND MONTH(registered_at) = MONTH(CURDATE() - INTERVAL 1 MONTH)";
+        $lastMonthCount = (int) $this->db->query($queryLastMonth)->fetch_assoc()['count'];
+
+        $percentageChange = 0;
+        if ($lastMonthCount > 0) {
+            $percentageChange = (($thisMonthCount - $lastMonthCount) / $lastMonthCount) * 100;
+        } elseif ($thisMonthCount > 0) {
+            $percentageChange = 100; // Tăng 100% nếu tháng trước không có ai
+        }
+
+        return [
+            'thisMonthCount' => $thisMonthCount,
+            'percentageChange' => round($percentageChange, 1),
+            'isGrowth' => $thisMonthCount >= $lastMonthCount
+        ];
     }
 }

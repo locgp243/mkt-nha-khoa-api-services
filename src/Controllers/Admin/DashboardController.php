@@ -20,17 +20,20 @@ class DashboardController
     public function getStatistics(Request $request): Response
     {
         $params = $request->getBody();
-        $chartPeriod = $params['period'] ?? 'day'; // 'day', 'month', 'year'
+        $chartPeriod = $params['period'] ?? 'day';
+        $year = isset($params['year']) ? (int) $params['year'] : null;
+
+        $signupComparison = $this->customerModel->getNewRegistrationsCountWithComparison();
 
         $data = [
             'summaryData' => [
-                'newSignups' => $this->customerModel->getNewRegistrationsCount('1 MONTH'),
-                // Các thống kê khác như 'visitors', 'conversionRate' sẽ cần các model hoặc dịch vụ khác (vd: Google Analytics)
-                // Tạm thời hardcode các giá trị này
-                'visitors' => 1420,
-                'conversionRate' => 5.8,
+                'newSignups' => $signupComparison['thisMonthCount'],
+                'signupGrowth' => $signupComparison['percentageChange'],
+                'isSignupGrowth' => $signupComparison['isGrowth'],
+                'visitors' => 0, // Dữ liệu ảo
+                'conversionRate' => 0, // Dữ liệu ảo
             ],
-            'registrationChartData' => $this->customerModel->getRegistrationStatsByPeriod($chartPeriod),
+            'registrationChartData' => $this->customerModel->getRegistrationStatsByPeriod($chartPeriod, $year),
             'recentTrials' => $this->customerModel->getRecentRegistrations(5)
         ];
 
